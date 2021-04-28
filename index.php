@@ -29,6 +29,9 @@
                     vmostrarPaginaPrincipal();
             }
             break;
+        case "recetaEjemplo":
+            vmostrarRecetaEjemplo(mseleccionarDatosReceta());
+            break;
     }
 
 ?>
