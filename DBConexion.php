@@ -1,0 +1,103 @@
+<?php
+/**
+ * Class DBConexion
+ *
+ * Seguimos el patrón Singleton pues realmente solo interesa
+ * que haya una única instancia de la base de datos. Esto nos
+ * permite conectarnos a la base de datos en cualquier punto
+ * del código sin necesidad de crear más conexiones o tener
+ * que pasarla por parámetro.
+ */
+class DBConexion {
+
+    private $servidor="localhost";
+    private $usuario="root";
+    private $password="";
+    private $base_datos="db_groupdelta";
+
+    private $conexion;
+
+    static $_instancia;
+
+    /**
+     * DBConexion constructor.
+     */
+    private function __construct()
+    {
+        $this->conectar();
+    }
+
+
+    /**
+     * @return DBConexion
+     *
+     * Función encargada de crear, si es necesario, el objeto.
+     * Esta es la función que debemos llamar desde fuera de la
+     * clase para instanciar el objeto, y así, poder utilizar sus métodos.
+     */
+    public static function getInstance(){
+        if (!(self::$_instancia instanceof self)){
+            self::$_instancia = new self();
+        }
+        return self::$_instancia;
+    }
+
+    /**
+     *
+     * Realizar la conexión con la base de datos.
+     */
+    private function conectar(){
+        //$conexion = mysqli_connect("dbserver","grupo11", "ailieWei2S","db_grupo11"); // nube
+        $this->conexion = mysqli_connect($this->servidor,$this->usuario, $this->password,$this->base_datos); // local
+
+        // Comprobar si ha ido mal la conexión
+        if(mysqli_connect_errno()){
+            echo "ha ido  mal" . mysqli_connect_error();
+            exit();
+        }
+    }
+
+    /**
+     * @param $consulta
+     * Método para hacer queries seguras
+     */
+    public function prepare($consulta){
+        return $this->conexion->prepare($consulta);
+    }
+
+    /**
+     * @param $consulta
+     * @return bool|resource
+     *
+     * Método para ejecutar una sentencia sql
+     */
+    public function ejecutar($consulta){
+        return $consulta->execute();
+    }
+
+    /*Método para obtener una fila de resultados de la sentencia sql*/
+    /**
+     * @param $ejecucion
+     * @return array|false
+     */
+    public function obtener_filas($ejecucion){
+        return $ejecucion->fetch_assoc();
+    }
+}
+
+/*
+ * EJEMPLO USO DE ESTA CLASE
+ * <?php
+ *
+ * Incluimos el fichero de la clase -----> require 'DbConexion.class.php';
+ * Creamos la instancia del objeto  -----> $bd = DbConexion::getInstance();
+ * Creamos una query sencillA       -----> $sql =' SELECT NOMBRE FROM CLIENTES';
+ * Ejecutamos la query              -----> $stmt = $bd->ejecutar($sql);
+ * Ir obteniendo los resultados:
+ * while ($x = $bd->obtener_filas($stmt)){
+ *      echo $x['NOMBRE'].'<br />';
+ * }
+ *
+ */
+
+?>
