@@ -59,6 +59,7 @@
                     break;
                 case 2:
                     mRegistrarUsuario();
+                    vmostrarPerfilUsuario();
                     break;
             }
             break;
