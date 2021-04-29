@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+
     include "modelo.php";
     include "vista.php";
 
@@ -27,11 +31,21 @@
             switch($id){
                 case 1:
                     vmostrarPaginaPrincipal();
+                    break;
             }
             break;
         case "recetaEjemplo":
-            vmostrarRecetaEjemplo(mseleccionarDatosReceta());
+            vmostrarVistaEjemplo(mseleccionarDatosReceta());
             break;
+        case "login":
+            switch($id){
+                case 1:
+                    vmostrarPaginaLogin();
+                    break;
+                case 2:
+                    mlogearUsuario();
+                    break;
+            }
     }
 
 ?>

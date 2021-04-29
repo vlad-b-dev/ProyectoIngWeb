@@ -1,12 +1,42 @@
 <?php
-    require "DBConexion.class.php";
-    function mseleccionarDatosReceta(){
+    include "DBConexion.php";
 
-        $conexion = DBConexion::getInstance();
+    function mseleccionarDatosReceta(){
+        //$conexion = DBConexion::getInstance();
+        $conexion = mysqli_connect("localhost","root","","db_groupdelta");
         $consulta = "select * from RECETA where IDRECETA = 2";
         if($resultado=$conexion->query($consulta))
         {
-               return $resultado;
+            while($datos = $resultado->fetch_assoc()){
+                return $datos;
+            }
+        }
+    }
+
+    function mlogearUsuario(){
+        // Obtener los datos del formulario de login
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Conexión a la base de datos
+        $conexion = DBConexion::getInstance();
+
+        // Realizar la consulta
+        $sql = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ss', $email, $password);
+        $conexion->ejecutar($sql_prepared);                            
+        $resultado = $conexion->obtener_resultados($sql_prepared);      /// para insert, delete, update no hace falta
+        
+        // Si hay algún usuario con esos datos, le lleva a su cuenta
+        if($datos = $conexion->obtener_filas($resultado)){              /// para insert, delete, update no hace falta
+            echo $datos['NOMBRE'];
+            // Llevar a la cuenta
+        }else{
+            echo "<script>
+            alert('Usuario no encontrado');
+            location.href ='index.php?accion=login&id=1';
+        </script>";
         }
     }
 ?>
