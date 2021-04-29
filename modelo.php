@@ -10,8 +10,6 @@
             while($datos = $resultado->fetch_assoc()){
                 return $datos;
             }
-<<<<<<< HEAD
-=======
         }
     }
 
@@ -39,39 +37,9 @@
             alert('Usuario no encontrado');
             location.href ='index.php?accion=login&id=1';
         </script>";
->>>>>>> 90a21265d20932c9349d8254f1194fbb8040d548
         }
     }
-
-    function mlogearUsuario(){
-        // Obtener los datos del formulario de login
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        // Conexión a la base de datos
-        $conexion = DBConexion::getInstance();
-
-        // Realizar la consulta
-        $sql = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
-        $sql_prepared = $conexion->prepare($sql);
-        $sql_prepared->bind_param('ss', $email, $password);
-        $conexion->ejecutar($sql_prepared);                            
-        $resultado = $conexion->obtener_resultados($sql_prepared);      /// para insert, delete, update no hace falta
-        
-        // Si hay algún usuario con esos datos, le lleva a su cuenta
-        if($datos = $conexion->obtener_filas($resultado)){              /// para insert, delete, update no hace falta
-            echo "<script>
-                alert('Usuario registrado');
-            </script>";
-            // Llevar a la cuenta
-        }else{
-            echo "<script>
-                alert('Usuario no encontrado');
-                location.href ='index.php?accion=login&id=1';
-            </script>";
-        }
-    }
-
+    
     function mRegistrarUsuario(){
         // Obtener los datos del formulario de login
         $nombre = $_POST['name'];
