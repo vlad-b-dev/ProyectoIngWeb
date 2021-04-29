@@ -76,4 +76,14 @@
         echo $principal;
     }
 
+    function vmostrarPerfilUsuario(){
+        $header = file_get_contents("header.html");
+        $footer = file_get_contents("footer.html");
+        $perfil = file_get_contents("plantillaPerfil.html");
+
+        $perfil= str_replace("##header##", $header, $perfil);
+        $perfil = str_replace("##footer##", $footer, $perfil);
+        echo $perfil;
+    }
+
 ?>

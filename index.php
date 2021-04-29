@@ -48,6 +48,7 @@
                     break;
                 case 2:
                     mlogearUsuario();
+                    vmostrarPerfilUsuario();
                     break;
             }
             break;
@@ -61,5 +62,10 @@
                     break;
             }
             break;
+        case "perfil":
+            switch($id){
+                case 1:
+                    vmostrarPerfilUsuario();
+            }
     }      
 ?>
