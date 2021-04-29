@@ -31,7 +31,10 @@
         case "principal":
             switch($id){
                 case 1:
-                    vmostrarPaginaPrincipal();
+                    $desayuno = mseleccionarCategoria("DESAYUNO");
+                    $comida = mseleccionarCategoria("COMIDA");
+                    $cena = mseleccionarCategoria("CENA");
+                    vmostrarPaginaPrincipal($desayuno,$comida,$cena);
                     break;
             }
             break;

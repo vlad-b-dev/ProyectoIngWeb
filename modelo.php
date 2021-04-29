@@ -1,6 +1,26 @@
 <?php
     include "DBConexion.php";
 
+    /**
+     * @param tipo 
+     */
+    function mseleccionarCategoria($tipo){
+        // Conexión a la base de datos
+        $conexion = DBConexion::getInstance();
+
+        // Realizar la consulta
+        $sql = "SELECT NOMBRE FROM CATEGORIA WHERE TIPO = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $tipo);
+        $conexion->ejecutar($sql_prepared);                            
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
+    }
+
+    /**
+     * 
+     */
     function mseleccionarDatosReceta(){
         //$conexion = DBConexion::getInstance();
         $conexion = mysqli_connect("localhost","root","","db_groupdelta");
@@ -13,6 +33,9 @@
         }
     }
 
+    /**
+     * 
+     */
     function mlogearUsuario(){
         // Obtener los datos del formulario de login
         $email = $_POST['email'];
@@ -40,6 +63,9 @@
         }
     }
     
+    /**
+     * 
+     */
     function mRegistrarUsuario(){
         // Obtener los datos del formulario de login
         $nombre = $_POST['name'];
