@@ -72,16 +72,26 @@ class DBConexion {
      * Método para ejecutar una sentencia sql
      */
     public function ejecutar($consulta){
-        return $consulta->execute();
+        $consulta->execute();
+    }
+
+    /**
+     * @param $consulta
+     * @return bool|resource
+     *
+     * Método para obtener resultados de un select
+     */
+    public function obtener_resultados($consulta){
+        return $consulta->get_result();
     }
 
     /*Método para obtener una fila de resultados de la sentencia sql*/
     /**
-     * @param $ejecucion
+     * @param $resultado
      * @return array|false
      */
-    public function obtener_filas($ejecucion){
-        return $ejecucion->fetch_assoc();
+    public function obtener_filas($resultado){
+        return $resultado->fetch_assoc();
     }
 }
 

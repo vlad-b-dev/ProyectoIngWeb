@@ -1,0 +1,30 @@
+##header##
+
+<body>
+    <section class="login-dark" style="height: 805px;">
+        <form action="index.php?accion=registro&id=2" method="post" style="color: var(--cyan);background: rgba(255,255,255,0.8);">
+            <h2 class="sr-only">Login Form</h2>
+            <div class="illustration" style="height: 185px;">
+                <i class="icon ion-ios-locked-outline" style="color: var(--orange);"></i>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="name" placeholder="Name" aria-required="true" required> 
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email" aria-required="true" required> 
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" aria-required="true" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit" aria-describedby="descriptionRegistro"
+                    style="background: rgb(37,205,175);box-shadow: 7px 8px 9px 0px var(--gray);">Sign Up</button>
+                    <div id="descriptionRegistro" hidden>Sign Up hará que se envíe su formulario con los datos introducidos y se registre en la web.</div>
+                </div>
+        </form>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+##footer##
