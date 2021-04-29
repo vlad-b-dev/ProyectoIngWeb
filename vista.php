@@ -36,6 +36,7 @@
         echo $principal;
     }
 
+<<<<<<< HEAD
     function vmostrarPaginaRegistro(){
         $header = file_get_contents("header.html");
 		$footer = file_get_contents("footer.html");
@@ -47,4 +48,6 @@
         echo $principal;
     }
 
+=======
+>>>>>>> 90a21265d20932c9349d8254f1194fbb8040d548
 ?>

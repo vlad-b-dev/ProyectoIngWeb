@@ -36,6 +36,7 @@ ini_set('display_startup_errors', TRUE);
             break;
         case "recetaEjemplo":
             vmostrarVistaEjemplo(mseleccionarDatosReceta());
+<<<<<<< HEAD
             break;
         case "login":
             switch($id){
@@ -54,6 +55,16 @@ ini_set('display_startup_errors', TRUE);
                     break;
                 case 2:
                     mRegistrarUsuario();
+=======
+            break;
+        case "login":
+            switch($id){
+                case 1:
+                    vmostrarPaginaLogin();
+                    break;
+                case 2:
+                    mlogearUsuario();
+>>>>>>> 90a21265d20932c9349d8254f1194fbb8040d548
                     break;
             }
     }
