@@ -27,14 +27,17 @@
         }
     }
 
+    // Rellenar la cabecera para pasársela a cada vista
+    $desayuno = mseleccionarCategoria("DESAYUNO");
+    $comida = mseleccionarCategoria("COMIDA");
+    $cena = mseleccionarCategoria("CENA");
+    $header = obtenerCategorias($desayuno,$comida,$cena);
+
     switch($accion){
         case "principal":
             switch($id){
                 case 1:
-                    $desayuno = mseleccionarCategoria("DESAYUNO");
-                    $comida = mseleccionarCategoria("COMIDA");
-                    $cena = mseleccionarCategoria("CENA");
-                    vmostrarPaginaPrincipal($desayuno,$comida,$cena);
+                    vmostrarPaginaPrincipal($header);
                     break;
             }
             break;
@@ -44,29 +47,29 @@
         case "login":
             switch($id){
                 case 1:
-                    vmostrarPaginaLogin();
+                    vmostrarPaginaLogin($header);
                     break;
                 case 2:
                     mlogearUsuario();
-                    vmostrarPerfilUsuario();
                     break;
             }
             break;
         case "registro":
             switch($id){
                 case 1:
-                    vmostrarPaginaRegistro();
+                    vmostrarPaginaRegistro($header);
                     break;
                 case 2:
                     mRegistrarUsuario();
-                    vmostrarPerfilUsuario();
                     break;
             }
             break;
         case "perfil":
             switch($id){
                 case 1:
-                    vmostrarPerfilUsuario();
+                    vmostrarPerfilUsuario($header);
+                    break;
             }
+            break;
     }      
 ?>

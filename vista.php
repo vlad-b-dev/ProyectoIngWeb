@@ -1,18 +1,10 @@
 <?php
 
-    function vmostrarPaginaPrincipal($datosCategoriaDesayuno,$datosCategoriaComida,$datosCategoriaCena){
-
+    function obtenerCategorias($datosCategoriaDesayuno,$datosCategoriaComida,$datosCategoriaCena){
         // Obtener el contenido
         $header = file_get_contents("header.html");
-		$footer = file_get_contents("footer.html");
-        $principal = file_get_contents("principal.html");
-
-        // Sustituir cabecera y pie
-		$principal = str_replace("##header##", $header, $principal);
-        $principal = str_replace("##footer##", $footer, $principal);
-
         // Sustituir los datos
-        $trozos = explode("##fila##", $principal);
+        $trozos = explode("##fila##", $header);
         $cuerpo = ""; 
         $aux = "";
         for($i = 0; $i < sizeof($datosCategoriaDesayuno); $i++){
@@ -37,10 +29,25 @@
             $cuerpo3 .= $aux;
         }
 
-        // Imprimir el contenido
-        echo $trozos[0].$cuerpo.$trozos[2].$cuerpo2.$trozos[4].$cuerpo3.$trozos[6];
-     }
+        // Devolver el header montando el contenido
+        return $trozos[0].$cuerpo.$trozos[2].$cuerpo2.$trozos[4].$cuerpo3.$trozos[6];
+    }
+
     
+    function vmostrarPaginaPrincipal($header){
+        // Obtener el contenido
+		$footer = file_get_contents("footer.html");
+        $principal = file_get_contents("principal.html");
+
+        // Sustituir cabecera y pie
+		$principal = str_replace("##header##", $header, $principal);
+        $principal = str_replace("##footer##", $footer, $principal);
+        
+        echo $principal;
+        
+    }
+    
+
     function vmostrarVistaEjemplo($resultado){
 
         $header = file_get_contents("header.html");
@@ -54,35 +61,41 @@
         echo $recetaEjemplo;
     }
 
-    function vmostrarPaginaLogin(){
-        $header = file_get_contents("header.html");
+
+    function vmostrarPaginaLogin($header){
+        // Obtener contenido
 		$footer = file_get_contents("footer.html");
         $principal = file_get_contents("plantillaLogin.html");
 
+        // Sustituir cabecera y pie
         $principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
         
         echo $principal;
     }
 
-    function vmostrarPaginaRegistro(){
-        $header = file_get_contents("header.html");
+
+    function vmostrarPaginaRegistro($header){
+        // Obtener contenido
 		$footer = file_get_contents("footer.html");
         $principal = file_get_contents("plantillaRegistro.html");
-
+        
+        // Sustituir cabecera y pie
         $principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
         
         echo $principal;
     }
 
-    function vmostrarPerfilUsuario(){
-        $header = file_get_contents("header.html");
+    function vmostrarPerfilUsuario($header){
+        // Obtener contenido
         $footer = file_get_contents("footer.html");
         $perfil = file_get_contents("plantillaPerfil.html");
 
+        // Sustituir cabecera y pie
         $perfil= str_replace("##header##", $header, $perfil);
         $perfil = str_replace("##footer##", $footer, $perfil);
+
         echo $perfil;
     }
 
