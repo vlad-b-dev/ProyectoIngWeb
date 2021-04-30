@@ -17,6 +17,16 @@
         }
     }
 
+    if (isset($_GET["categoria"])) {
+        $categoria = $_GET["categoria"];
+    } else {
+        if (isset($_POST["categoria"])) {
+            $categoria = $_POST["categoria"];
+        } else {
+            $categoria = "error";
+        }
+    }
+
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
     } else {
@@ -40,10 +50,10 @@
                     vmostrarPaginaPrincipal($header);
                     break;
             }
-            break;
+        break;
         case "recetaEjemplo":
             vmostrarVistaEjemplo(mseleccionarDatosReceta());
-            break;
+        break;
         case "login":
             switch($id){
                 case 1:
@@ -53,7 +63,7 @@
                     mlogearUsuario();
                     break;
             }
-            break;
+        break;
         case "registro":
             switch($id){
                 case 1:
@@ -63,13 +73,16 @@
                     mRegistrarUsuario();
                     break;
             }
-            break;
+        break;
         case "perfil":
             switch($id){
                 case 1:
                     vmostrarPerfilUsuario($header);
                     break;
             }
-            break;
+        break;
+        case "listado":
+                vmostrarListado($categoria);
+        break;
     }      
 ?>

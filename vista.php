@@ -99,4 +99,33 @@
         echo $perfil;
     }
 
+    function vmostrarListado($categoria){
+        // Obtener contenido
+        $header = file_get_contents("header.html");
+        $footer = file_get_contents("footer.html");
+        $listado = file_get_contents("listadoRecetas.html");
+        
+        //Sustituir titulos de recetas
+        $trozos = explode("##fila##", $header);
+        $cuerpo = ""; 
+        $aux = "";
+        /*
+        for($i = 0; $i < sizeof($datosRecetasParaCategoria); $i++){
+            $aux = $trozos[1];
+            $aux = str_replace("##categoriaDesayu##", $datosRecetasParaCategoria [$i]["NOMBRE"], $aux);
+            $cuerpo .= $aux;
+        }*/
+
+
+
+
+
+        //Sustituir cosas propias de la pestaña
+        $listado= str_replace("##categoria##", $categoria, $listado);
+        // Sustituir cabecera y pie
+        $listado= str_replace("##header##", $header, $listado);
+        $listado = str_replace("##footer##", $footer, $listado);
+        
+        echo $listado;
+    }
 ?>
