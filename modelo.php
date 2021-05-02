@@ -93,4 +93,19 @@
             location.href ='index.php?accion=perfil&id=1';
         </script>";
     }
+
+    function mobtenerInfoUsuario(){
+        //$id = 7;
+        //$conexion = DBConexion::getInstance();
+        /*$conexion = mysqli_connect("localhost", "root", "", "practica_final");
+        $consulta = "SELECT NOMBRE, CORREO FROM USUARIO WHERE IDUSUARIO = " .$id;
+        echo $consulta;
+        $resultados = $conexion->query($consulta);
+        print_r($resultados);
+        return $resultados;*/
+    }
+
+    function mobtenerRecetasUsuario($id){
+
+    }
 ?>

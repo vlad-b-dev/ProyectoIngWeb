@@ -87,14 +87,17 @@
         echo $principal;
     }
 
-    function vmostrarPerfilUsuario($header){
+    function vmostrarPerfilUsuario($header, $info){
         // Obtener contenido
         $footer = file_get_contents("footer.html");
         $perfil = file_get_contents("plantillaPerfil.html");
-
+print_r($info);
         // Sustituir cabecera y pie
+        $datos = $info->fetch_assoc();
         $perfil= str_replace("##header##", $header, $perfil);
         $perfil = str_replace("##footer##", $footer, $perfil);
+        $perfil = str_replace("##nombre##", $datos["NOMBRE"], $perfil);
+        $perfil = str_replace("##email##", $datos["EMAIL"], $perfil);
 
         echo $perfil;
     }

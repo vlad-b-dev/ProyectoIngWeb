@@ -77,7 +77,7 @@
         case "perfil":
             switch($id){
                 case 1:
-                    vmostrarPerfilUsuario($header);
+                    vmostrarPerfilUsuario($header, mobtenerInfoUsuario());
                     break;
             }
         break;
