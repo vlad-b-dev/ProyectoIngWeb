@@ -83,23 +83,39 @@
         // Sustituir cabecera y pie
         $principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
-        
+
         echo $principal;
     }
 
-    function vmostrarPerfilUsuario($header, $info){
+    function vmostrarPerfilUsuario($header, $info, $recetas){
         // Obtener contenido
         $footer = file_get_contents("footer.html");
         $perfil = file_get_contents("plantillaPerfil.html");
-print_r($info);
         // Sustituir cabecera y pie
-        $datos = $info->fetch_assoc();
         $perfil= str_replace("##header##", $header, $perfil);
         $perfil = str_replace("##footer##", $footer, $perfil);
-        $perfil = str_replace("##nombre##", $datos["NOMBRE"], $perfil);
-        $perfil = str_replace("##email##", $datos["EMAIL"], $perfil);
-
-        echo $perfil;
+        //Sustituir datos de usuario
+        $perfil = str_replace("##nombre##", $info[0]["NOMBRE"], $perfil);
+        $perfil = str_replace("##email##", $info[0]["CORREO"], $perfil);
+        //Sustituir recetas
+        $trozos = explode("##fila##", $perfil);
+        $cuerpo = "";
+        if($recetas != null){
+            for($i=0;$i<sizeof($recetas);$i++){
+                $aux = $trozos[1];
+                $aux = str_replace("##nombreReceta##", $recetas[$i]["NOMBRE"], $aux);
+                $aux = str_replace("##categoria##", $recetas[$i]["CATEGORIA"], $aux);
+                $aux = str_replace("##fecha##", $recetas[$i]["CREACION"], $aux);
+                $cuerpo .= $aux;
+            }
+        }else{
+            $aux = $trozos[1];
+            $aux = str_replace("##nombreReceta##", "No tiene recetas.", $aux);
+            $aux = str_replace("##categoria##", "-", $aux);
+            $aux = str_replace("##fecha##", "-", $aux);
+            $cuerpo .= $aux;
+        }
+        echo $trozos[0] . $cuerpo . $trozos[2];
     }
 
     function vmostrarListado($categoria){

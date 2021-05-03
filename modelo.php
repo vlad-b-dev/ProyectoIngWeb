@@ -95,17 +95,31 @@
     }
 
     function mobtenerInfoUsuario(){
-        //$id = 7;
-        //$conexion = DBConexion::getInstance();
-        /*$conexion = mysqli_connect("localhost", "root", "", "practica_final");
-        $consulta = "SELECT NOMBRE, CORREO FROM USUARIO WHERE IDUSUARIO = " .$id;
-        echo $consulta;
-        $resultados = $conexion->query($consulta);
-        print_r($resultados);
-        return $resultados;*/
+        $id = 7;
+        $conexion = DBConexion::getInstance();
+        $sql = "SELECT NOMBRE, CORREO FROM USUARIO WHERE IDUSUARIO = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $id);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
     }
 
-    function mobtenerRecetasUsuario($id){
-
+    function mobtenerRecetasUsuario(){
+        $id = 7;
+        //$id = 1;
+        $conexion = DBConexion::getInstance();
+        $sql = "SELECT NOMBRE, CATEGORIA, CREACION FROM RECETA WHERE IDUSUARIO = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $id);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        if($resultado->num_rows > 1){
+            $datos = $conexion->obtener_filas($resultado);
+            return $datos;
+        }else{
+            return null;
+        }
     }
 ?>
