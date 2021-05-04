@@ -6,7 +6,7 @@
     include "modelo.php";
     include "vista.php";
 
-
+    // Comprobación de la existencia de claves GET
     if (isset($_GET["accion"])) {
         $accion = $_GET["accion"];
     } else {
@@ -22,6 +22,16 @@
     } else {
         if (isset($_POST["categoria"])) {
             $categoria = $_POST["categoria"];
+        } else {
+            $categoria = "error";
+        }
+    }
+
+    if (isset($_GET["receta"])) {
+        $categoria = $_GET["receta"];
+    } else {
+        if (isset($_POST["receta"])) {
+            $categoria = $_POST["receta"];
         } else {
             $categoria = "error";
         }
@@ -80,9 +90,15 @@
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
             }
-        break;
+            break;
         case "listado":
-                vmostrarListado($categoria);
-        break;
+            vmostrarListado($categoria);
+            break;
+        case "editar_receta":
+            vmodificarReceta($categoria);
+            break;
+        case "eliminar_receta":
+            meliminarReceta($receta, $categoria);
+            break;
     }      
 ?>

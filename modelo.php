@@ -94,8 +94,11 @@
         </script>";
     }
 
+    /**
+     * 
+     */
     function mobtenerInfoUsuario(){
-        $id = 7;
+        $id = 1;
         $conexion = DBConexion::getInstance();
         $sql = "SELECT NOMBRE, CORREO FROM USUARIO WHERE IDUSUARIO = ?";
         $sql_prepared = $conexion->prepare($sql);
@@ -106,8 +109,11 @@
         return $datos;
     }
 
+    /**
+     * 
+     */
     function mobtenerRecetasUsuario(){
-        $id = 7;
+        $id = 1;
         //$id = 1;
         $conexion = DBConexion::getInstance();
         $sql = "SELECT NOMBRE, CATEGORIA, CREACION FROM RECETA WHERE IDUSUARIO = ?";
@@ -121,5 +127,19 @@
         }else{
             return null;
         }
+    }
+
+    /**
+     * 
+     */
+    function meliminarReceta($receta, $categoria){
+        $conexion = DBConexion::getInstance();
+        $sql = "DELETE FROM RECETA WHERE NOMBRE = ? AND CATEGORIA = ?";
+        //$sql_prepared = $conexion->prepare($sql);
+        //$sql_prepared->bind_param('ss', $receta, $categoria);
+        //$conexion->ejecutar($sql_prepared);
+        echo "<script>
+        location.href ='index.php?accion=perfil&id=1';
+        </script>";
     }
 ?>

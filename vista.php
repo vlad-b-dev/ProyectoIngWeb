@@ -128,16 +128,7 @@
         $trozos = explode("##fila##", $header);
         $cuerpo = ""; 
         $aux = "";
-        /*
-        for($i = 0; $i < sizeof($datosRecetasParaCategoria); $i++){
-            $aux = $trozos[1];
-            $aux = str_replace("##categoriaDesayu##", $datosRecetasParaCategoria [$i]["NOMBRE"], $aux);
-            $cuerpo .= $aux;
-        }*/
-
-
-
-
+ 
 
         //Sustituir cosas propias de la pestaña
         $listado= str_replace("##categoria##", $categoria, $listado);
