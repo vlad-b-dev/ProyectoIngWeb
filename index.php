@@ -28,12 +28,12 @@
     }
 
     if (isset($_GET["receta"])) {
-        $categoria = $_GET["receta"];
+        $receta = $_GET["receta"];
     } else {
         if (isset($_POST["receta"])) {
-            $categoria = $_POST["receta"];
+            $receta = $_POST["receta"];
         } else {
-            $categoria = "error";
+            $receta = "error";
         }
     }
 
@@ -92,7 +92,7 @@
             }
             break;
         case "listado":
-            vmostrarListado($categoria);
+            vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
             vmodificarReceta($categoria);

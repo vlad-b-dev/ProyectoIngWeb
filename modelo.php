@@ -142,4 +142,36 @@
         location.href ='index.php?accion=perfil&id=1';
         </script>";
     }
+
+    /**
+     * 
+     */
+    function mobtenerListadoRecetas($categoria){
+        $conexion = DBConexion::getInstance();
+        $sql = "SELECT DISTINCT R.NOMBRE, R.IDRECETA, R.CREACION, F.PATH FROM RECETA R, FOTO F  WHERE CATEGORIA = ?";
+       /* $sql = "SELECT RECETA.NOMBRE, RECETA.IDRECETA, FOTO.PATH
+  FROM RECETA
+  LEFT
+  JOIN FOTO
+    ON FOTO.IDRECETA = RECETA.IDRECETA
+   AND FOTO.IDFOTO =
+        ( SELECT TOP 1
+                 IDFOTO
+            FROM FOTO
+           WHERE FOTO.IDRECETA = RECETA.IDRECETA
+       )
+";*/
+
+        
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $categoria);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        if($resultado->num_rows > 1){
+            $datos = $conexion->obtener_filas($resultado);
+            return $datos;
+        }else{
+            return null;
+        }
+    }
 ?>

@@ -118,12 +118,15 @@
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
 
-    function vmostrarListado($categoria){
+    function vmostrarListado($header,$categoria,$recetas){
         // Obtener contenido
-        $header = file_get_contents("header.html");
         $footer = file_get_contents("footer.html");
-        $listado = file_get_contents("listadoRecetas.html");
+        $listado = file_get_contents("plantillaListadoRecetas.html");
         
+        // Sustituir cabecera y pie
+        $listado= str_replace("##header##", $header, $listado);
+        $listado = str_replace("##footer##", $footer, $listado);
+
         //Sustituir titulos de recetas
         $trozos = explode("##fila##", $header);
         $cuerpo = ""; 
@@ -132,10 +135,28 @@
 
         //Sustituir cosas propias de la pestaña
         $listado= str_replace("##categoria##", $categoria, $listado);
-        // Sustituir cabecera y pie
-        $listado= str_replace("##header##", $header, $listado);
-        $listado = str_replace("##footer##", $footer, $listado);
+        $linkImagenes = "assets/img/recetas/";
+        $trozos = explode("##filaListado##", $listado);
+        $cuerpo = "";
+        if($recetas != null){
+            for($i=0;$i<sizeof($recetas);$i++){
+                $aux = $trozos[1];
+                $aux = str_replace("##nombreReceta##", $recetas[$i]["NOMBRE"], $aux);
+                $aux = str_replace("##fecha##", $recetas[$i]["CREACION"], $aux);
+                $aux = str_replace("##linkImagen##", $linkImagenes . $recetas[$i]["PATH"], $aux);
+                $cuerpo .= $aux;
+            }
+        }else{
+            $aux = $trozos[1];
+            $aux = str_replace("##nombreReceta##", "No tiene recetas.", $aux);
+            $aux = str_replace("##fecha##", "-", $aux);
+            $cuerpo .= $aux;
+        }
+
+
+
+
         
-        echo $listado;
+        echo $trozos[0] . $cuerpo . $trozos[2];
     }
 ?>
