@@ -145,7 +145,7 @@
                 $aux = str_replace("##fecha##", $recetas[$i]["CREACION"], $aux);
                 $aux = str_replace("##idReceta##", $recetas[$i]["IDRECETA"], $aux);
 
-                $codigoBoton = '<a class="action" href=""index.php?accion=mostrarReceta&receta='.$recetas[$i]["IDRECETA"].'><i class="fa fa-arrow-circle-right" style="color: var(--white);"></i></a>';
+                $codigoBoton = '<a class="action" href="index.php?accion=mostrarReceta&receta='.$recetas[$i]["IDRECETA"].'"><i class="fa fa-arrow-circle-right" style="color: var(--white);"></i></a>';
                 $aux = str_replace("##botonReceta##", $codigoBoton, $aux);
 
                 $linkImagen = mobtenerImagenesReceta($recetas[$i]["IDRECETA"]);
