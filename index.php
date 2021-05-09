@@ -60,10 +60,10 @@
                     vmostrarPaginaPrincipal($header);
                     break;
             }
-        break;
+            break;
         case "recetaEjemplo":
             vmostrarVistaEjemplo(mseleccionarDatosReceta());
-        break;
+            break;
         case "login":
             switch($id){
                 case 1:
@@ -73,7 +73,7 @@
                     mlogearUsuario();
                     break;
             }
-        break;
+            break;
         case "registro":
             switch($id){
                 case 1:
@@ -83,7 +83,7 @@
                     mRegistrarUsuario();
                     break;
             }
-        break;
+            break;
         case "perfil":
             switch($id){
                 case 1:
@@ -99,6 +99,10 @@
             break;
         case "eliminar_receta":
             meliminarReceta($receta, $categoria);
+            break;
+        case "mostrarReceta":
+            //vMostrarReceta($header, mobtenerImagenesReceta($receta),mobtenerIngredientes($receta),mobtenerPasos($receta));
+            vMostrarReceta($header);
             break;
     }      
 ?>

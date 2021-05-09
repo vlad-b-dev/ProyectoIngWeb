@@ -148,20 +148,7 @@
      */
     function mobtenerListadoRecetas($categoria){
         $conexion = DBConexion::getInstance();
-        $sql = "SELECT DISTINCT R.NOMBRE, R.IDRECETA, R.CREACION, F.PATH FROM RECETA R, FOTO F  WHERE CATEGORIA = ?";
-       /* $sql = "SELECT RECETA.NOMBRE, RECETA.IDRECETA, FOTO.PATH
-  FROM RECETA
-  LEFT
-  JOIN FOTO
-    ON FOTO.IDRECETA = RECETA.IDRECETA
-   AND FOTO.IDFOTO =
-        ( SELECT TOP 1
-                 IDFOTO
-            FROM FOTO
-           WHERE FOTO.IDRECETA = RECETA.IDRECETA
-       )
-";*/
-
+        $sql = "SELECT DISTINCT R.NOMBRE, R.IDRECETA, R.CREACION FROM RECETA R WHERE CATEGORIA = ?";
         
         $sql_prepared = $conexion->prepare($sql);
         $sql_prepared->bind_param('s', $categoria);
@@ -174,4 +161,19 @@
             return null;
         }
     }
+
+    /**
+     * 
+     */
+    function mobtenerImagenesReceta($idReceta){
+        $conexion = DBConexion::getInstance();
+        $sql = "SELECT F.PATH FROM FOTO F WHERE F.IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('i', $idReceta);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
+    }
+
 ?>

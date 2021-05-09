@@ -143,13 +143,21 @@
                 $aux = $trozos[1];
                 $aux = str_replace("##nombreReceta##", $recetas[$i]["NOMBRE"], $aux);
                 $aux = str_replace("##fecha##", $recetas[$i]["CREACION"], $aux);
-                $aux = str_replace("##linkImagen##", $linkImagenes . $recetas[$i]["PATH"], $aux);
+                $aux = str_replace("##idReceta##", $recetas[$i]["IDRECETA"], $aux);
+
+                $codigoBoton = '<a class="action" href=""index.php?accion=mostrarReceta&receta='.$recetas[$i]["IDRECETA"].'><i class="fa fa-arrow-circle-right" style="color: var(--white);"></i></a>';
+                $aux = str_replace("##botonReceta##", $codigoBoton, $aux);
+
+                $linkImagen = mobtenerImagenesReceta($recetas[$i]["IDRECETA"]);
+                $aux = str_replace("##linkImagen##",  $linkImagenes . $linkImagen[1]["PATH"], $aux);
                 $cuerpo .= $aux;
             }
         }else{
             $aux = $trozos[1];
-            $aux = str_replace("##nombreReceta##", "No tiene recetas.", $aux);
-            $aux = str_replace("##fecha##", "-", $aux);
+            $aux = str_replace("##nombreReceta##", "Esta categoria aún no tiene ninguna receta, se el/la primer@ en crear una :)", $aux);
+            $aux = str_replace("##fecha##", "", $aux);
+            $aux = str_replace("##linkImagen##",  $linkImagenes . "imagenNoRecetas.jpg", $aux);
+            $aux = str_replace("##botonReceta##", "", $aux);
             $cuerpo .= $aux;
         }
 
@@ -159,4 +167,15 @@
         
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
+    function vmostrarReceta($header){
+        // Obtener contenido
+        $footer = file_get_contents("footer.html");
+        $paginaReceta = file_get_contents("plantillaMostrarReceta.html");
+
+        // Sustituir cabecera y pie
+        $paginaReceta = str_replace("##header##", $header, $paginaReceta);
+        $paginaReceta = str_replace("##footer##", $footer, $paginaReceta);
+        echo $paginaReceta;
+    }
+
 ?>
