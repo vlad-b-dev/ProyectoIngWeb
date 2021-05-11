@@ -1,5 +1,7 @@
 <?php
-
+    /**
+     * 
+     */
     function obtenerCategorias($datosCategoriaDesayuno,$datosCategoriaComida,$datosCategoriaCena){
         // Obtener el contenido
         $header = file_get_contents("header.html");
@@ -33,7 +35,9 @@
         return $trozos[0].$cuerpo.$trozos[2].$cuerpo2.$trozos[4].$cuerpo3.$trozos[6];
     }
 
-    
+    /**
+     * 
+     */
     function vmostrarPaginaPrincipal($header){
         // Obtener el contenido
 		$footer = file_get_contents("footer.html");
@@ -61,7 +65,9 @@
         echo $recetaEjemplo;
     }
 
-
+    /**
+     * 
+     */
     function vmostrarPaginaLogin($header){
         // Obtener contenido
 		$footer = file_get_contents("footer.html");
@@ -74,7 +80,9 @@
         echo $principal;
     }
 
-
+    /**
+     * 
+     */
     function vmostrarPaginaRegistro($header){
         // Obtener contenido
 		$footer = file_get_contents("footer.html");
@@ -87,6 +95,9 @@
         echo $principal;
     }
 
+    /**
+     * 
+     */
     function vmostrarPerfilUsuario($header, $info, $recetas){
         // Obtener contenido
         $footer = file_get_contents("footer.html");
@@ -117,7 +128,9 @@
         }
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
-
+    /**
+     * 
+     */
     function vmostrarListado($header,$categoria,$recetas){
         // Obtener contenido
         $footer = file_get_contents("footer.html");
@@ -167,6 +180,9 @@
         
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
+    /**
+     * 
+     */
     function vmostrarReceta($header){
         // Obtener contenido
         $footer = file_get_contents("footer.html");

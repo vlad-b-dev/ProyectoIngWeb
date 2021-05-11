@@ -121,7 +121,7 @@
         $sql_prepared->bind_param('s', $id);
         $conexion->ejecutar($sql_prepared);
         $resultado = $conexion->obtener_resultados($sql_prepared);
-        if($resultado->num_rows > 1){
+        if($resultado->num_rows >= 1){
             $datos = $conexion->obtener_filas($resultado);
             return $datos;
         }else{
@@ -148,13 +148,14 @@
      */
     function mobtenerListadoRecetas($categoria){
         $conexion = DBConexion::getInstance();
-        $sql = "SELECT DISTINCT R.NOMBRE, R.IDRECETA, R.CREACION FROM RECETA R WHERE CATEGORIA = ?";
+        $sql = "SELECT  R.NOMBRE, R.IDRECETA, R.CREACION FROM RECETA R WHERE CATEGORIA = ?";
         
         $sql_prepared = $conexion->prepare($sql);
         $sql_prepared->bind_param('s', $categoria);
+        
         $conexion->ejecutar($sql_prepared);
         $resultado = $conexion->obtener_resultados($sql_prepared);
-        if($resultado->num_rows > 1){
+        if($resultado->num_rows >= 1){
             $datos = $conexion->obtener_filas($resultado);
             return $datos;
         }else{
