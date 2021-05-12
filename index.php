@@ -89,6 +89,13 @@
                 case 1:
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
+                case 2:
+                    vmostrarFormularioReceta($header, mobtenerCategorias());
+                    break;
+                case 3:
+                    minsertarReceta();
+                    vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
+                    break;
             }
             break;
         case "listado":

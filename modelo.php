@@ -177,4 +177,62 @@
         return $datos;
     }
 
+    /**
+     *
+     */
+    function mobtenerCategorias(){
+        $conexion = DBConexion::getInstance();
+        $sql = "SELECT NOMBRE FROM CATEGORIA";
+        $sql_prepared = $conexion->prepare($sql);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        return $resultado;
+    }
+
+    /**
+     *
+     */
+    function minsertarReceta(){
+        $conexion = DBConexion::getInstance();
+        $nombreReceta = $_POST["nombreReceta"];
+        $categoria = $_POST["categoria"];
+        $idUsuario = 7;
+        $fecha = date('Y-m-d');
+
+        //Insertar en RECETA[idreceta, categoria, idusuario, nombre, creacion]
+        $sql = "INSERT INTO RECETA (CATEGORIA, IDUSUARIO, NOMBRE, CREACION) VALUES (?, ?,?, ?)";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ssss', $categoria, $idUsuario, $nombreReceta, $fecha);
+        $conexion->ejecutar($sql_prepared);
+
+        //Obtener IDRECETA
+        $sql = "SELECT MAX(IDRECETA) ID FROM RECETA";
+        $sql_prepared = $conexion->prepare($sql);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $idReceta = $resultado->fetch_assoc()["ID"];
+
+        //Insertar en INGREDIENTES[idreceta, nombre, cantidad]
+        $numIngredientes = $_POST["numIngredientes"];
+        for($i = 1; $i <= $numIngredientes; $i++){
+            $nombreIngrediente = $_POST["nombreIngrediente".$i];
+            $cantidad = $_POST["cantidad".$i];
+            $sql = "INSERT INTO INGREDIENTES  VALUES (?, ?, ?)";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('sss', $idReceta, $nombreIngrediente, $cantidad);
+            $conexion->ejecutar($sql_prepared);
+        }
+
+        //Insertar en PASOS[idreceta, num_paso, explicacion]
+        $numPasos = $_POST["numPasos"];
+        for($i=1; $i <= $numPasos; $i++){
+            $numPaso = $_POST["numPaso".$i];
+            $explicacion = $_POST["explicacion".$i];
+            $sql = "INSERT INTO PASOS  VALUES (?, ?, ?)";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('sss', $idReceta, $numPaso, $explicacion);
+            $conexion->ejecutar($sql_prepared);
+        }
+    }
+
 ?>
