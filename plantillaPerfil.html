@@ -30,14 +30,14 @@
                         <td>##categoria##</td>
                         <td>##fecha##</td>
                         <td style="text-align: center;">
-                            <button onclick="" href="index.php/editar_receta?receta=##nombreReceta##?categoria=##categoria##">
-                                <i class="fa fa-edit" style="font-size: 26px;text-align: center;"></i>
-                            </button>
+                            <a href="index.php?accion=editar_receta&id=1&receta=##idReceta##">
+                                <i class="fa fa-edit" style="font-size: 30px;text-align: center;color:limegreen"></i>
+                            </a>
                         </td>
                         <td style="text-align: center;">
-                            <button onclick="eliminarreceta('##nombreReceta##', '##categoria##');">
-                                <i class="fa fa-trash-o" style="font-size: 26px;"></i>
-                            </button>
+                            <a onclick="eliminarreceta('##nombreReceta##', '##categoria##');">
+                                <i class="fa fa-trash-o" style="font-size: 30px;color:red"></i>
+                            </a>
                             
                         </td>
                     </tr>

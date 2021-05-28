@@ -114,9 +114,8 @@
      */
     function mobtenerRecetasUsuario(){
         $id = 1;
-        //$id = 1;
         $conexion = DBConexion::getInstance();
-        $sql = "SELECT NOMBRE, CATEGORIA, CREACION FROM RECETA WHERE IDUSUARIO = ?";
+        $sql = "SELECT IDRECETA, NOMBRE, CATEGORIA, CREACION FROM RECETA WHERE IDUSUARIO = ?";
         $sql_prepared = $conexion->prepare($sql);
         $sql_prepared->bind_param('s', $id);
         $conexion->ejecutar($sql_prepared);
@@ -254,4 +253,49 @@
         return $datos;
     }
 
+    /**
+     *
+     */
+    function mobtenerDatosReceta($id){
+        $conexion = DBConexion::getInstance();
+
+        $sql = "SELECT NOMBRE, CATEGORIA FROM RECETA WHERE IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $id);
+
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
+    }
+
+    function mobtenerIngredientesReceta($id){
+        $conexion = DBConexion::getInstance();
+
+        $sql = "SELECT NOMBRE, CANTIDAD FROM INGREDIENTES WHERE IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $id);
+
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
+    }
+
+    function mobtenerPasosReceta($id){
+        $conexion = DBConexion::getInstance();
+
+        $sql ="SELECT NUMERO_PASO, EXPLICACION FROM PASOS WHERE IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $id);
+
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+        return $datos;
+    }
+
+    function mmodificarReceta($datos, $ingredientes, $pasos, $id){
+
+    }
 ?>

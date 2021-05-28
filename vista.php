@@ -133,6 +133,7 @@
                 $aux = str_replace("##nombreReceta##", $recetas[$i]["NOMBRE"], $aux);
                 $aux = str_replace("##categoria##", $recetas[$i]["CATEGORIA"], $aux);
                 $aux = str_replace("##fecha##", $recetas[$i]["CREACION"], $aux);
+                $aux = str_replace("##idReceta##", $recetas[$i]["IDRECETA"], $aux);
                 $cuerpo .= $aux;
             }
         }else{
@@ -238,6 +239,78 @@ function vmostrarFormularioReceta($header, $categorias){
             $cuerpo .= $aux;
         }
 
+        echo $trozos[0] . $cuerpo . $trozos[2];
+    }
+
+    /**
+     *
+     */
+    function vmodificarReceta($datos, $ingredientes, $pasos, $id, $categorias, $imagenes,$header){
+        $formulario = file_get_contents("plantillaModificarReceta.html");
+        $formulario = str_replace("##idReceta", $id, $formulario);
+        $formulario = str_replace("##nombre##", $datos[0]["NOMBRE"], $formulario);
+
+        $formulario = str_replace("##header##", $header, $formulario);
+        $footer = file_get_contents("footer.html");
+        $formulario = str_replace("##footer##", $footer, $formulario);
+
+        $trozos = explode("##fila##", $formulario);
+        $cuerpo = "";
+        //reemplazar categorias
+        while($cat = $categorias->fetch_assoc()){
+            $aux = $trozos[1];
+            if($cat["NOMBRE"] == $datos[0]["CATEGORIA"]){
+                $aux = str_replace("##categoria##", $cat["NOMBRE"], $aux);
+                $aux = str_replace("##value##", $cat["NOMBRE"], $aux);
+                $aux = str_replace("##selected##", "selected", $aux);
+            }
+            else{
+                $aux = str_replace("##categoria##", $cat["NOMBRE"], $aux);
+                $aux = str_replace("##value##", $cat["NOMBRE"], $aux);
+                $aux = str_replace("##selected##", "", $aux);
+            }
+            $cuerpo .= $aux;
+        }
+
+        $file = $trozos[0] . $cuerpo . $trozos[2];
+        $file = str_replace("##numIng##", sizeof($ingredientes), $file);
+        $trozos = explode("##filaIngredientes##", $file);
+        $cuerpo = "";
+
+        //reemplazar ingredientes
+        for($i = 0; $i < sizeof($ingredientes); $i++){
+            $aux = $trozos[1];
+            $aux = str_replace("##nombre##", $ingredientes[$i]["NOMBRE"], $aux);
+            $aux = str_replace("##cantidad##", $ingredientes[$i]["CANTIDAD"], $aux);
+            $aux = str_replace("##idNomIng", "nombreIngrediente" . $i, $aux);
+            $aux = str_replace("##idCant", "cantidad" . ($i+1), $aux);
+            $aux = str_replace("##idIngLabel", "ingLabel" . ($i+1), $aux);
+            $aux = str_replace("##idCantLabel", "cantidadLabel" . ($i+1), $aux);
+            $cuerpo .= $aux;
+        }
+
+        $file =  $trozos[0] . $cuerpo . $trozos[2];
+        $file = str_replace("##numPasos##", sizeof($pasos), $file);
+        $trozos = explode("##filaPasos##", $file);
+        $cuerpo = "";
+
+        //reemplazar pasos
+        for($i = 0; $i < sizeof($pasos); $i++){
+            $aux = $trozos[1];
+            $aux = str_replace("##paso##", $pasos[$i]["NUMERO_PASO"], $aux);
+            $aux = str_replace("##exp##", $pasos[$i]["EXPLICACION"], $aux);
+            $aux = str_replace("##idNumPaso", "numPaso" . ($i+1), $aux);
+            $aux = str_replace("##idExp", "explicacion" . ($i+1), $aux);
+            $cuerpo .= $aux;
+        }
+        $file = $trozos[0] . $cuerpo . $trozos[2];
+        $trozos = explode("##filaImg##", $file);
+        $cuerpo = "";
+        for($i = 0; $i < sizeof($imagenes); $i++){
+            $aux = $trozos[1];
+            $aux = str_replace("##ruta##", "assets/img/recetas/" . $imagenes[$i]["PATH"], $aux);
+            $cuerpo .= $aux;
+        }
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
 ?>

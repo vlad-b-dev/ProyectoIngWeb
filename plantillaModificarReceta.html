@@ -1,0 +1,52 @@
+##header##
+<body>
+    <h2 class="text-center" style="font-family: ABeeZee, sans-serif;color: var(--yellow);border-width: 3px;border-style: solid;margin: 25px;">&nbsp; Añadir nueva receta</h2>
+    <form class="text-left" style="width: 650px;text-align: center;border-style: none;margin-left: 25%;" method="post" action="index.php?accion=editar_receta&id=2&receta=##idReceta##" enctype="multipart/form-data">
+        <label for="nomReceta" class="text-dark d-block" style="line-height: 29px;margin-bottom: 0px;">NOMBRE:&nbsp;</label>
+        <input id="nomReceta" name="nombreReceta" class="border rounded-pill border-warning form-control d-inline-block" type="text" style="filter: blur(0px);" value="##nombre##">
+        <label for="categoria" class="d-block" style="margin: 0px;margin-top: 15px;">CATEGORIA:&nbsp;</label>
+        <select id="categoria" name="categoria" class="border rounded-pill border-warning form-control" style="margin-bottom: 29px;">
+            ##fila##
+            <option value="##value##" ##selected##>##categoria##</option>
+            ##fila##
+        </select>
+        <h4 style="text-align: center;">Ingredientes</h4>
+        <div id="ingredientes">
+            <label for="numIngrediente" name="nameIng"  class="d-inline-block" style="margin-bottom: 0px;">INTRODUZCA LA CANTIDAD DE INGREDIENTES:</label>
+            <input id="numIngrediente" id="labelNombre1" name="numIngredientes" class="border rounded-pill border-warning form-control" type="number" onchange="añadirIngrediente(this.value)" style="width: 648px;margin-bottom: 23px;" value="##numIng##">
+            ##filaIngredientes##
+            <label for="##idNomIng" id="##idIngLabel" class="d-inline-block" style="margin-bottom: 0px;">NOMBRE:</label>
+            <input id="##idNomIng" name="##idNomIng" class="border rounded-pill border-warning form-control" type="text" style="width: 648px;margin-bottom: 23px;" value="##nombre##">
+            <label for="##idCant" id="##idCantLabel" class="d-block" style="margin-bottom: 0px;">CANTIDAD:</label>
+            <input id="##idCant" name="##idCant" class="border rounded-pill border-warning form-control" type="text" value="##cantidad##" style="margin-bottom: 15px;">
+            ##filaIngredientes##
+        </div>
+        <h4 style="text-align: center;margin-top: 25px;">Pasos&nbsp;</h4>
+        <div id="pasos">
+            <label for="numPasos" name="numPasos" class="d-inline-block" style="margin-bottom: 0px;">INTRODUZCA LA CANTIDAD DE PASOS:</label>
+            <input id="numPasos" name="numPasos" class="border rounded-pill border-warning form-control" type="number" onchange="añadirPaso(this.value)" style="width: 648px;margin-bottom: 23px;" value="##numPasos##">
+            ##filaPasos##
+            <label for="##idNumPaso" class="d-block" style="margin-bottom: 0px;">NÚMERO:</label>
+            <input id="##idNumPaso" name="##idNumPaso" class="border rounded-pill border-warning form-control" type="number" min="1" value="##paso##" style="margin-bottom: 23px;">
+            <label class="d-block" style="margin-bottom: 0px;">EXPLICACIÓN:</label>
+            <textarea rows="5" cols="89" name="##idExp" style="border: 1px solid var(--yellow);">
+                ##exp##
+            </textarea>
+            ##filaPasos##
+        </div>
+        <div id="imagenes">
+            <h4 style="text-align: center; margin-top: 25px;">Imagenes</h4>
+            <div>
+                ##filaImg##
+                <img src="##ruta##" style="display: inline-block; margin-left: 10px; margin-right: 10px; width: 150px;">
+                ##filaImg##
+            </div>
+            <input class="border-warning form-control-file" style="margin_bottom: 30px;margin-top: 15px;" type="file" name="file">
+        </div>
+        <input type="submit" style="padding:10px;border-style: none;color: rgb(0,0,0);background: var(--yellow);border-radius: 25px;margin-top: 22px;margin-bottom: 20px;font-size: 18px;" type="submit" value="Enviar">
+    </form>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/formulario.js"></script>
+</body>
+##footer##

@@ -112,7 +112,15 @@
             vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
-            //vmodificarReceta($categoria);
+            switch($id){
+                case 1:
+                    vmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]), $_GET["receta"], mobtenerCategorias(), mobtenerImagenesReceta($_GET["receta"]),$header);
+                    break;
+                case 2:
+                    mmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]));
+                    vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
+                    break;
+            }
             break;
         case "eliminar_receta":
             meliminarReceta($receta, $categoria);
