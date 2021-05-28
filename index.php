@@ -1,7 +1,7 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', TRUE);
-    ini_set('display_startup_errors', TRUE);
+    //error_reporting(E_ALL);
+    //ini_set('display_errors', TRUE);
+    //ini_set('display_startup_errors', TRUE);
 
     include "modelo.php";
     include "vista.php";
@@ -44,6 +44,16 @@
             $id = $_POST["id"];
         } else {
             $id = 1;
+        }
+    }
+
+    if (isset($_GET["info"])) {
+        $info = $_GET["info"];
+    } else {
+        if (isset($_POST["info"])) {
+            $info = $_POST["info"];
+        } else {
+            $info = 1;
         }
     }
 
@@ -90,7 +100,7 @@
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
                 case 2:
-                    vmostrarFormularioReceta($header, mobtenerCategorias());
+                    //vmostrarFormularioReceta($header, mobtenerCategorias());
                     break;
                 case 3:
                     minsertarReceta();
@@ -102,7 +112,7 @@
             vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
-            vmodificarReceta($categoria);
+            //vmodificarReceta($categoria);
             break;
         case "eliminar_receta":
             meliminarReceta($receta, $categoria);
@@ -110,6 +120,9 @@
         case "mostrarReceta":
             //vMostrarReceta($header, mobtenerImagenesReceta($receta),mobtenerIngredientes($receta),mobtenerPasos($receta));
             vMostrarReceta($header);
+            break;
+        case "buscar":
+            vMostrarResultadosBusqueda(mbuscarRecetas($info));
             break;
     }      
 ?>

@@ -235,4 +235,23 @@
         }
     }
 
+    /**
+     * 
+     */
+    function mbuscarRecetas($info){
+        $conexion = DBConexion::getInstance();
+
+        $sql = "SELECT NOMBRE 
+                FROM RECETA 
+                WHERE NOMBRE LIKE CONCAT('%',?,'%')";
+
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $info);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+
+        return $datos;
+    }
+
 ?>

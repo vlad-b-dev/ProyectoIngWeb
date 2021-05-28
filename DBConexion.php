@@ -12,7 +12,7 @@ class DBConexion {
 
     private $servidor="localhost";
     private $usuario="root";
-    private $password=" ";
+    private $password="";
     private $base_datos="db_groupdelta";
 
     private $conexion;
@@ -92,27 +92,18 @@ class DBConexion {
      */
     public function obtener_filas($resultado){
         $i = 0;
-        while($datos = $resultado->fetch_assoc()){
-            $datos_resultado[$i] = $datos;
-            $i = $i + 1;
+        if($resultado != null){
+            while($datos = $resultado->fetch_assoc()){
+                $datos_resultado[$i] = $datos;
+                $i = $i + 1;
+            }
+            return $datos_resultado;
+        }else{
+            return null;
         }
-        return $datos_resultado;
+       
     }
 }
 
-/*
- * EJEMPLO USO DE ESTA CLASE
- * <?php
- *
- * Incluimos el fichero de la clase -----> require 'DbConexion.class.php';
- * Creamos la instancia del objeto  -----> $bd = DbConexion::getInstance();
- * Creamos una query sencillA       -----> $sql =' SELECT NOMBRE FROM CLIENTES';
- * Ejecutamos la query              -----> $stmt = $bd->ejecutar($sql);
- * Ir obteniendo los resultados:
- * while ($x = $bd->obtener_filas($stmt)){
- *      echo $x['NOMBRE'].'<br />';
- * }
- *
- */
 
 ?>

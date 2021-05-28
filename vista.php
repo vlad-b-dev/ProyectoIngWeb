@@ -108,6 +108,9 @@
         echo $paginaReceta;
     }
 
+    /**
+     * 
+     */
     function vmostrarPerfilUsuario($header, $info, $recetas){
         // Obtener contenido
         $footer = file_get_contents("footer.html");
@@ -158,7 +161,6 @@
         $trozos = explode("##fila##", $header);
         $cuerpo = ""; 
         $aux = "";
- 
 
         //Sustituir cosas propias de la pestaña
         $listado= str_replace("##categoria##", $categoria, $listado);
@@ -187,8 +189,32 @@
             $aux = str_replace("##botonReceta##", "", $aux);
             $cuerpo .= $aux;
         }
-        
         echo $trozos[0] . $cuerpo . $trozos[2];
     }
 
+    /**
+     * 
+     */
+    function vMostrarResultadosBusqueda($info){
+        // Obtener contenido
+        $busqueda = file_get_contents("buscar.html");
+
+        //Sustituir titulos de recetas
+        $trozos = explode("##fila##", $busqueda);
+        $cuerpo = ""; 
+        $aux = "";
+        if($info != ""){
+            for($i = 0; $i < sizeof($info); $i++){
+                $aux = $trozos[1];
+                $aux = str_replace("##nombrereceta##", $info[$i]["NOMBRE"], $aux);
+                $cuerpo .= $aux;
+            }
+        }else{
+            $aux = $trozos[1];
+            $aux = str_replace("##nombrereceta##", "no hay", $aux);
+            $cuerpo .= $aux;
+        }
+
+        echo $trozos[0] . $cuerpo . $trozos[2];
+    }
 ?>
