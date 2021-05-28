@@ -59,6 +59,10 @@
                 location.href ='index.php?accion=login&id=1';
             </script>";
         }else{
+            session_abort();
+            session_start();
+            $_SESSION["userId"] = $datos[0]["IDUSUARIO"];
+            $_SESSION["userName"] = $datos[0]["NOMBRE"];
             echo "<script>
                 alert('Usuario registrado');
                 location.href ='index.php?accion=perfil&id=1';
@@ -87,6 +91,25 @@
         $sql_prepared->bind_param('sss', $nombre, $email, $password);
         $conexion->ejecutar($sql_prepared);
 
+        $sql = "SELECT MAX(IDUSUARIO) ID FROM USUARIO";
+        $sql_prepared = $conexion->prepare($sql);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+
+        session_abort();
+        session_start();
+        $_SESSION["userId"] = $datos[0]["ID"];
+
+        $sql = "SELECT NOMBRE FROM USUARIO WHERE IDUSUARIO = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $resultado[0]["ID"]);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+
+        $_SESSION["userName"] = $datos[0]["NOMBRE"];
+
         // Confirmar registro y llevar a la cuenta
         echo "<script>
             alert('Usuario registrado');
@@ -98,7 +121,7 @@
      * 
      */
     function mobtenerInfoUsuario(){
-        $id = 1;
+        $id = $_SESSION["userId"];
         $conexion = DBConexion::getInstance();
         $sql = "SELECT NOMBRE, CORREO FROM USUARIO WHERE IDUSUARIO = ?";
         $sql_prepared = $conexion->prepare($sql);
@@ -113,7 +136,7 @@
      * 
      */
     function mobtenerRecetasUsuario(){
-        $id = 1;
+        $id = $_SESSION["userId"];
         $conexion = DBConexion::getInstance();
         $sql = "SELECT IDRECETA, NOMBRE, CATEGORIA, CREACION FROM RECETA WHERE IDUSUARIO = ?";
         $sql_prepared = $conexion->prepare($sql);

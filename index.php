@@ -65,6 +65,7 @@
 
     switch($accion){
         case "principal":
+            session_start();
             switch($id){
                 case 1:
                     vmostrarPaginaPrincipal($header);
@@ -95,6 +96,7 @@
             }
             break;
         case "perfil":
+            session_start();
             switch($id){
                 case 1:
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
@@ -109,9 +111,11 @@
             }
             break;
         case "listado":
+            session_start();
             vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
+            session_start();
             switch($id){
                 case 1:
                     vmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]), $_GET["receta"], mobtenerCategorias(), mobtenerImagenesReceta($_GET["receta"]),$header);
@@ -126,6 +130,7 @@
             meliminarReceta($receta, $categoria);
             break;
         case "mostrarReceta":
+            session_start();
             //vMostrarReceta($header, mobtenerImagenesReceta($receta),mobtenerIngredientes($receta),mobtenerPasos($receta));
             vMostrarReceta($header);
             break;

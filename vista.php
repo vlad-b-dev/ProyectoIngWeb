@@ -43,6 +43,15 @@
 		$footer = file_get_contents("footer.html");
         $principal = file_get_contents("principal.html");
 
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
         // Sustituir cabecera y pie
 		$principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
@@ -72,6 +81,15 @@
 		$footer = file_get_contents("footer.html");
         $principal = file_get_contents("plantillaLogin.html");
 
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
         // Sustituir cabecera y pie
         $principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
@@ -86,7 +104,16 @@
         // Obtener contenido
 		$footer = file_get_contents("footer.html");
         $principal = file_get_contents("plantillaRegistro.html");
-        
+
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
         // Sustituir cabecera y pie
         $principal = str_replace("##header##", $header, $principal);
         $principal = str_replace("##footer##", $footer, $principal);
@@ -102,6 +129,15 @@
         $footer = file_get_contents("footer.html");
         $paginaReceta = file_get_contents("plantillaMostrarReceta.html");
 
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
         // Sustituir cabecera y pie
         $paginaReceta = str_replace("##header##", $header, $paginaReceta);
         $paginaReceta = str_replace("##footer##", $footer, $paginaReceta);
@@ -115,6 +151,15 @@
         // Obtener contenido
         $footer = file_get_contents("footer.html");
         $perfil = file_get_contents("plantillaPerfil.html");
+
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
 
         // Sustituir cabecera y pie
         $perfil= str_replace("##header##", $header, $perfil);
@@ -153,7 +198,16 @@
         // Obtener contenido
         $footer = file_get_contents("footer.html");
         $listado = file_get_contents("plantillaListadoRecetas.html");
-        
+
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
         // Sustituir cabecera y pie
         $listado= str_replace("##header##", $header, $listado);
         $listado = str_replace("##footer##", $footer, $listado);
@@ -196,25 +250,33 @@
     /**
      *
      */
-function vmostrarFormularioReceta($header, $categorias){
-    //print_r($categorias);
-    $formulario = file_get_contents("plantillaFormularioReceta.html");
-    $footer = file_get_contents("footer.html");
+    function vmostrarFormularioReceta($header, $categorias){
+        $formulario = file_get_contents("plantillaFormularioReceta.html");
+        $footer = file_get_contents("footer.html");
 
-    $formulario = str_replace("##header##", $header, $formulario);
-    $formulario = str_replace("##footer##", $footer, $formulario);
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
 
-    //sustituir categorias
-    $trozos = explode("##fila##", $formulario);
-    $cuerpo = "";
-    while($datos=$categorias->fetch_assoc()){
-        $aux = $trozos[1];
-        $aux = str_replace("##value##", $datos["NOMBRE"], $aux);
-        $aux = str_replace("##categoria##", $datos["NOMBRE"], $aux);
-        $cuerpo .= $aux;
+        $formulario = str_replace("##header##", $header, $formulario);
+        $formulario = str_replace("##footer##", $footer, $formulario);
+
+        //sustituir categorias
+        $trozos = explode("##fila##", $formulario);
+        $cuerpo = "";
+        while($datos=$categorias->fetch_assoc()){
+            $aux = $trozos[1];
+            $aux = str_replace("##value##", $datos["NOMBRE"], $aux);
+            $aux = str_replace("##categoria##", $datos["NOMBRE"], $aux);
+            $cuerpo .= $aux;
+        }
+        echo $trozos[0] . $cuerpo . $trozos[2];
     }
-    echo $trozos[0] . $cuerpo . $trozos[2];
-}
 
     /**
      * 
@@ -249,6 +311,15 @@ function vmostrarFormularioReceta($header, $categorias){
         $formulario = file_get_contents("plantillaModificarReceta.html");
         $formulario = str_replace("##idReceta", $id, $formulario);
         $formulario = str_replace("##nombre##", $datos[0]["NOMBRE"], $formulario);
+
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
 
         $formulario = str_replace("##header##", $header, $formulario);
         $footer = file_get_contents("footer.html");
