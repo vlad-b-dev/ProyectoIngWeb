@@ -100,7 +100,7 @@
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
                 case 2:
-                    //vmostrarFormularioReceta($header, mobtenerCategorias());
+                    vmostrarFormularioReceta($header, mobtenerCategorias());
                     break;
                 case 3:
                     minsertarReceta();

@@ -57,6 +57,7 @@ function añadirCantidad(numero){
 
 function añadirPaso(numero){
     var div = document.getElementById("pasos");
+    console.log(document.getElementById("numPaso" + numero));
     if(document.getElementById("numPaso" + numero) == null || numero == 0){
         var label = document.createElement("label");
         label.innerHTML = "NÚMERO:";
@@ -64,7 +65,7 @@ function añadirPaso(numero){
         label.setAttribute("class", "d-inline-block");
         label.setAttribute("style", "margin-bottom: 0px; margin-top:10px;");
         label.setAttribute("id", "labelPaso"+numero);
-
+console.log(label);
         var input = document.createElement("input");
         input.setAttribute("id", "numPaso"+numero);
         input.setAttribute("placeholder", "1");
@@ -72,6 +73,8 @@ function añadirPaso(numero){
         input.setAttribute("type", "number");
         input.setAttribute("style", "width: 648px;margin-bottom: 23px;");
         input.setAttribute("name", "numPaso"+numero);
+console.log(input);
+
         div.appendChild(label);
         div.appendChild(input);
         añadirExplicacion(numero);

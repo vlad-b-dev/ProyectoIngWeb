@@ -193,6 +193,29 @@
     }
 
     /**
+     *
+     */
+function vmostrarFormularioReceta($header, $categorias){
+    //print_r($categorias);
+    $formulario = file_get_contents("plantillaFormularioReceta.html");
+    $footer = file_get_contents("footer.html");
+
+    $formulario = str_replace("##header##", $header, $formulario);
+    $formulario = str_replace("##footer##", $footer, $formulario);
+
+    //sustituir categorias
+    $trozos = explode("##fila##", $formulario);
+    $cuerpo = "";
+    while($datos=$categorias->fetch_assoc()){
+        $aux = $trozos[1];
+        $aux = str_replace("##value##", $datos["NOMBRE"], $aux);
+        $aux = str_replace("##categoria##", $datos["NOMBRE"], $aux);
+        $cuerpo .= $aux;
+    }
+    echo $trozos[0] . $cuerpo . $trozos[2];
+}
+
+    /**
      * 
      */
     function vMostrarResultadosBusqueda($info){
