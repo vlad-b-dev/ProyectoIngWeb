@@ -108,6 +108,11 @@
                     minsertarReceta();
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
+                case 4:
+                    session_destroy();
+                    session_start();
+                    vmostrarPaginaPrincipal($header);
+                    break;
             }
             break;
         case "listado":
