@@ -134,7 +134,7 @@
             break;
         case "mostrarReceta":
             session_start();
-            vMostrarReceta($header,mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta),mobtenerIngredientesReceta($receta),mobtenerPasosReceta($receta));
+            vMostrarReceta($header,$id,mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta),mobtenerIngredientesReceta($receta),mobtenerPasosReceta($receta),$receta);
             //vMostrarReceta($header);
             break;
         case "buscar":

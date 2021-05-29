@@ -125,11 +125,18 @@
     /**
      * 
      */
-    function vmostrarReceta($header, $datosReceta, $imagenesReceta,$ingredientesReceta,$pasosReceta)
+    function vmostrarReceta($header, $id, $datosReceta, $imagenesReceta,$ingredientesReceta,$pasosReceta,$idReceta)
     {
         // Obtener contenido
-        $footer = file_get_contents("footer.html");
-        $paginaReceta = file_get_contents("plantillaMostrarReceta.html");
+        if($id == 2)
+        {
+            $paginaReceta = file_get_contents("plantillaMostrarRecetaIngredientes.html");
+        }
+        else
+        {
+            $paginaReceta = file_get_contents("plantillaMostrarRecetaPasos.html");
+
+        }
 
         //comprobar usuario
         $trozos = explode("##usuario##", $header);
@@ -140,16 +147,12 @@
             $header = $trozos[0] . $trozos[1] . $trozos[3];
         }
 
-        // Sustituir cabecera y pie
+        // Sustituir cabecera
         $paginaReceta = str_replace("##header##", $header, $paginaReceta);
-        $paginaReceta = str_replace("##footer##", $footer, $paginaReceta);
-
 
         //Sustituir cosas propias de la pestaña
-        $listado= str_replace("##categoria##", $categoria, $listado);
         $linkImagenes = "assets/img/recetas/";
-        $trozos = explode("##filaListado##", $listado);
-        $cuerpo = "";
+        $paginaReceta = str_replace("##idReceta##", $idReceta, $paginaReceta);
         if($datosReceta != null){
             $paginaReceta = str_replace("##nombreReceta##", $datosReceta[0]["NOMBRE"], $paginaReceta);
         }
@@ -164,30 +167,60 @@
             $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
         }
 
-        if($pasosReceta != null){
-            $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
-            
-            $trozos = explode("##filaPasos##", $paginaReceta);
-            $cuerpo = "";
-            for($i=0;$i<sizeof($pasosReceta);$i++){
-                $aux = $trozos[1];
-                $aux = str_replace("##numeroPaso##", $pasosReceta[$i]["NUMERO_PASO"], $aux);
-                $aux = str_replace("##contenidoPaso##", $pasosReceta[$i]["EXPLICACION"], $aux);
+        if($id == 2)
+        {
+            if($ingredientesReceta != null){
+                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                
+                $trozos = explode("##fila##", $paginaReceta);
+                $cuerpo = "";
+                for($i=0;$i<sizeof($pasosReceta);$i++){
+                    $aux = $trozos[1];
+                    $aux = str_replace("##numero##", $ingredientesReceta[$i]["NOMBRE"], $aux);
+                    $aux = str_replace("##contenido##", $ingredientesReceta[$i]["CANTIDAD"], $aux);
+                    $cuerpo .= $aux;
+                }
+            }
+            else{
+                $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
+    
+                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                
+                $trozos = explode("##filaPasos##", $paginaReceta);
+                $cuerpo = "";
+                $aux = str_replace("##numeroPaso##", "NO HAY DATOS", $aux);
+                $aux = str_replace("##contenidoPaso##", "", $aux);
                 $cuerpo .= $aux;
             }
+            $paginaReceta = $trozos[0] . $cuerpo . $trozos[2];
         }
-        else{
-            $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
-
-            $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
-            
-            $trozos = explode("##filaPasos##", $paginaReceta);
-            $cuerpo = "";
-            $aux = str_replace("##numeroPaso##", "NO DATA", $aux);
-            $aux = str_replace("##contenidoPaso##", "", $aux);
-            $cuerpo .= $aux;
+        else 
+        {
+            if($pasosReceta != null){
+                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                
+                $trozos = explode("##fila##", $paginaReceta);
+                $cuerpo = "";
+                for($i=0;$i<sizeof($pasosReceta);$i++){
+                    $aux = $trozos[1];
+                    $aux = str_replace("##numero##", $pasosReceta[$i]["NUMERO_PASO"], $aux);
+                    $aux = str_replace("##contenido##", $pasosReceta[$i]["EXPLICACION"], $aux);
+                    $cuerpo .= $aux;
+                }
+            }
+            else{
+                $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
+    
+                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                
+                $trozos = explode("##filaPasos##", $paginaReceta);
+                $cuerpo = "";
+                $aux = str_replace("##numeroPaso##", "NO DATA", $aux);
+                $aux = str_replace("##contenidoPaso##", "", $aux);
+                $cuerpo .= $aux;
+            }
+            $paginaReceta = $trozos[0] . $cuerpo . $trozos[2];
         }
-        $paginaReceta = $trozos[0] . $cuerpo . $trozos[2];
 
         $linkImagenes = "assets/img/recetas/";
         if($imagenesReceta != null){

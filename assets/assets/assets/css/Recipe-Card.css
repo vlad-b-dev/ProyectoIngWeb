@@ -41,9 +41,9 @@ body{
 
 .cont_photo {
   position: fixed;
-  width: 50%;
-  height: 40%;
-  left: 10px;
+  width: 40%;
+  height: 60%;
+  left: 40px;
   top: 200px;
   overflow: hidden;
   background-color: #eee;
@@ -352,8 +352,8 @@ body{
 
 .cont_modal_active > .cont_text_ingredients {
   width: 100%;
-  left: 300px;
-  top:-100px;
+  left: 270px;
+  top:-70px;
   z-index: 1;
   box-shadow: 15px 20px 70px -5px rgba(0,0,0,0.2);
 }
