@@ -106,7 +106,6 @@
                     break;
                 case 3:
                     minsertarReceta();
-                    vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
                     break;
                 case 4:
                     session_destroy();
@@ -126,8 +125,7 @@
                     vmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]), $_GET["receta"], mobtenerCategorias(), mobtenerImagenesReceta($_GET["receta"]),$header);
                     break;
                 case 2:
-                    mmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]));
-                    vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
+                    mmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]), $_GET["receta"]);
                     break;
             }
             break;
@@ -136,8 +134,8 @@
             break;
         case "mostrarReceta":
             session_start();
-            //vMostrarReceta($header, mobtenerImagenesReceta($receta),mobtenerIngredientes($receta),mobtenerPasos($receta));
-            vMostrarReceta($header);
+            vMostrarReceta($header, mobtenerImagenesReceta($receta),mobtenerIngredientesReceta($receta),mobtenerPasosReceta($receta));
+            //vMostrarReceta($header);
             break;
         case "buscar":
             vMostrarResultadosBusqueda(mbuscarRecetas($info));

@@ -112,7 +112,6 @@
 
         // Confirmar registro y llevar a la cuenta
         echo "<script>
-            alert('Usuario registrado');
             location.href ='index.php?accion=perfil&id=1';
         </script>";
     }
@@ -156,10 +155,29 @@
      */
     function meliminarReceta($receta, $categoria){
         $conexion = DBConexion::getInstance();
+
+        // Eliminar los pasos
+        $sql = "DELETE FROM PASOS WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
+                                                    FROM PASOS, RECETA
+                                                    WHERE PASOS.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $conexion->ejecutar($sql_prepared);
+
+        // Eliminar los ingredientes
+        $sql = "DELETE FROM INGREDIENTES WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
+                                                            FROM INGREDIENTES, RECETA
+                                                            WHERE INGREDIENTES.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $conexion->ejecutar($sql_prepared);
+
+        // Eliminar la receta
         $sql = "DELETE FROM RECETA WHERE NOMBRE = ? AND CATEGORIA = ?";
-        //$sql_prepared = $conexion->prepare($sql);
-        //$sql_prepared->bind_param('ss', $receta, $categoria);
-        //$conexion->ejecutar($sql_prepared);
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $conexion->ejecutar($sql_prepared);
+
         echo "<script>
         location.href ='index.php?accion=perfil&id=1';
         </script>";
@@ -215,10 +233,13 @@
      *
      */
     function minsertarReceta(){
+        session_start();
         $conexion = DBConexion::getInstance();
+
+        // Obtener los datos del formulario
         $nombreReceta = $_POST["nombreReceta"];
         $categoria = $_POST["categoria"];
-        $idUsuario = 7;
+        $idUsuario = $_SESSION["userId"];
         $fecha = date('Y-m-d');
 
         //Insertar en RECETA[idreceta, categoria, idusuario, nombre, creacion]
@@ -247,14 +268,20 @@
 
         //Insertar en PASOS[idreceta, num_paso, explicacion]
         $numPasos = $_POST["numPasos"];
+        echo "numero pasos: ".$numPasos."\n";
         for($i=1; $i <= $numPasos; $i++){
             $numPaso = $_POST["numPaso".$i];
             $explicacion = $_POST["explicacion".$i];
+            
             $sql = "INSERT INTO PASOS  VALUES (?, ?, ?)";
             $sql_prepared = $conexion->prepare($sql);
             $sql_prepared->bind_param('sss', $idReceta, $numPaso, $explicacion);
             $conexion->ejecutar($sql_prepared);
         }
+
+        echo "<script>
+        location.href ='index.php?accion=perfil&id=1';
+        </script>";
     }
 
     /**
@@ -292,6 +319,9 @@
         return $datos;
     }
 
+    /**
+     * 
+     */
     function mobtenerIngredientesReceta($id){
         $conexion = DBConexion::getInstance();
 
@@ -302,9 +332,13 @@
         $conexion->ejecutar($sql_prepared);
         $resultado = $conexion->obtener_resultados($sql_prepared);
         $datos = $conexion->obtener_filas($resultado);
+
         return $datos;
     }
 
+    /**
+     * 
+     */
     function mobtenerPasosReceta($id){
         $conexion = DBConexion::getInstance();
 
@@ -315,10 +349,59 @@
         $conexion->ejecutar($sql_prepared);
         $resultado = $conexion->obtener_resultados($sql_prepared);
         $datos = $conexion->obtener_filas($resultado);
+
         return $datos;
     }
 
+    /**
+     * 
+     */
     function mmodificarReceta($datos, $ingredientes, $pasos, $id){
+    
+        // Obtener los nuevos datos
+        $nombreNuevaReceta = $_POST["nombreReceta"];
+        $nuevaCategoria = $_POST["categoria"];
+        $numIngredientes = $_POST["numIngredientes"];
+        $numPasos = $_POST["numPasos"];
+
+        $conexion = DBConexion::getInstance();
+
+        // Actualizar la tabla receta
+        $sql = "UPDATE RECETA SET NOMBRE = ? AND CATEGORIA = ? WHERE IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('sss', $nombreNuevaReceta, $nuevaCategoria, $id);
+        $conexion->ejecutar($sql_prepared);
+
+        // Actualizar la tabla con los pasos
+        for($i = 0; $i <$numPasos; $i++){
+            // Ir obteniendo los pasos
+            $numPaso = $_POST["numPaso".$i];
+            $explicacion = $_POST["explicacion".$i];
+
+            $sql = "UPDATE PASOS SET NUMERO_PASO = ? AND EXPLICACION = ? 
+                    WHERE IDRECETA = ? AND NUMERO_PASO = ? AND EXPLICACION = ?";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('sssss', $numPaso, $explicacion, $id, $pasos[$i]["NUMERO_PASO"], $pasos[$i]["EXPLICACION"]);
+            $conexion->ejecutar($sql_prepared);
+        }
+
+        // Actualizar la tabla con los ingredientes
+        for($i = 0; $i < $numIngredientes; $i++){
+            // Ir obteniendo los pasos
+            $nombreIngrediente = $_POST["nombreIngrediente".$i];
+            $cantidad = $_POST["cantidad".$i];
+            echo $nombreIngrediente;
+            echo $cantidad;
+            $sql = "UPDATE INGREDIENTES SET NOMBRE = ? AND CANTIDAD = ? 
+                    WHERE IDRECETA = ? AND NOMBRE = ? AND CANTIDAD = ?";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('sssss', $nombreIngrediente, $cantidad, $id, $ingredientes[$i]["NOMBRE"], $ingredientes[$i]["CANTIDAD"]);
+            $conexion->ejecutar($sql_prepared);
+        }
+
+        echo "<script>
+                location.href ='index.php?accion=perfil&id=1';
+            </script>";
 
     }
 ?>

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     /**
      * 
      */
@@ -308,6 +309,7 @@
      *
      */
     function vmodificarReceta($datos, $ingredientes, $pasos, $id, $categorias, $imagenes,$header){
+
         $formulario = file_get_contents("plantillaModificarReceta.html");
         $formulario = str_replace("##idReceta", $id, $formulario);
         $formulario = str_replace("##nombre##", $datos[0]["NOMBRE"], $formulario);
@@ -327,6 +329,7 @@
 
         $trozos = explode("##fila##", $formulario);
         $cuerpo = "";
+
         //reemplazar categorias
         while($cat = $categorias->fetch_assoc()){
             $aux = $trozos[1];
@@ -351,7 +354,7 @@
         //reemplazar ingredientes
         for($i = 0; $i < sizeof($ingredientes); $i++){
             $aux = $trozos[1];
-            $aux = str_replace("##nombre##", $ingredientes[$i]["NOMBRE"], $aux);
+            $aux = str_replace("##nombreIngrediente##", $ingredientes[$i]["NOMBRE"], $aux);
             $aux = str_replace("##cantidad##", $ingredientes[$i]["CANTIDAD"], $aux);
             $aux = str_replace("##idNomIng", "nombreIngrediente" . $i, $aux);
             $aux = str_replace("##idCant", "cantidad" . ($i+1), $aux);
@@ -361,6 +364,7 @@
         }
 
         $file =  $trozos[0] . $cuerpo . $trozos[2];
+
         $file = str_replace("##numPasos##", sizeof($pasos), $file);
         $trozos = explode("##filaPasos##", $file);
         $cuerpo = "";
@@ -375,11 +379,18 @@
             $cuerpo .= $aux;
         }
         $file = $trozos[0] . $cuerpo . $trozos[2];
+
         $trozos = explode("##filaImg##", $file);
         $cuerpo = "";
-        for($i = 0; $i < sizeof($imagenes); $i++){
+        if($imagenes != null){      // puede que no se hayan subido imágenes
+            for($i = 0; $i < sizeof($imagenes); $i++){
+                $aux = $trozos[1];
+                $aux = str_replace("##ruta##", "assets/img/recetas/" . $imagenes[$i]["PATH"], $aux);
+                $cuerpo .= $aux;
+            }
+        }else{
             $aux = $trozos[1];
-            $aux = str_replace("##ruta##", "assets/img/recetas/" . $imagenes[$i]["PATH"], $aux);
+            $aux = str_replace("##ruta##", "La receta no tiene imágenes", $aux);
             $cuerpo .= $aux;
         }
         echo $trozos[0] . $cuerpo . $trozos[2];

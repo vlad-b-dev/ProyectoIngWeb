@@ -63,13 +63,14 @@
         confirmButtonText: 'Sí, borrarla'
         }).then((result) => {
         if (result.isConfirmed) {
+            location.href = 'index.php?accion=eliminar_receta&receta='+receta+'&categoria='+categoria;
             Swal.fire({
             icon: 'success',
             title: 'La receta se ha eliminado',
             showConfirmButton: false,
             timer: 3000
             })
-            location.href = 'index.php?accion=eliminar_receta&receta='+receta+'&categoria='+categoria;
+           
         }else{
             Swal.fire({
             icon: 'error',
