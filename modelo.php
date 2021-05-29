@@ -342,7 +342,7 @@
     function mobtenerPasosReceta($id){
         $conexion = DBConexion::getInstance();
 
-        $sql ="SELECT NUMERO_PASO, EXPLICACION FROM PASOS WHERE IDRECETA = ?";
+        $sql ="SELECT NUMERO_PASO, EXPLICACION FROM PASOS WHERE IDRECETA = ? ORDER BY NUMERO_PASO";
         $sql_prepared = $conexion->prepare($sql);
         $sql_prepared->bind_param('s', $id);
 
