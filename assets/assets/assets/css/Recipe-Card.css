@@ -42,7 +42,7 @@ body{
 .cont_photo {
   position: fixed;
   width: 40%;
-  height: 60%;
+  height: 50%;
   left: 40px;
   top: 200px;
   overflow: hidden;

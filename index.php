@@ -1,7 +1,7 @@
 <?php
-    //error_reporting(E_ALL);
-    //ini_set('display_errors', TRUE);
-    //ini_set('display_startup_errors', TRUE);
+    /*error_reporting(E_ALL);
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);*/
 
     include "modelo.php";
     include "vista.php";
@@ -135,7 +135,10 @@
         case "mostrarReceta":
             session_start();
             vMostrarReceta($header,$id,mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta),mobtenerIngredientesReceta($receta),mobtenerPasosReceta($receta),$receta);
-            //vMostrarReceta($header);
+            break;
+        case "mostrarImagenes":
+            session_start();
+            vMostrarImagenesReceta($header,$receta, mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta));
             break;
         case "buscar":
             vMostrarResultadosBusqueda(mbuscarRecetas($info));

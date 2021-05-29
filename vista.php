@@ -367,6 +367,48 @@
     /**
      * 
      */
+    function vmostrarImagenesReceta($header, $receta, $datosReceta, $imagenesReceta){
+        // Obtener contenido
+        $footer = file_get_contents("footer.html");
+        $galeria = file_get_contents("plantillaGaleriaReceta.html");
+
+        //comprobar usuario
+        $trozos = explode("##usuario##", $header);
+        if(isset($_SESSION["userId"])){
+            $trozos[2] = str_replace("##username##", $_SESSION["userName"], $trozos[2]);
+            $header = $trozos[0] . $trozos[2] . $trozos[3];
+        }else{
+            $header = $trozos[0] . $trozos[1] . $trozos[3];
+        }
+
+        // Sustituir cabecera y pie
+        $galeria= str_replace("##header##", $header, $galeria);
+        $galeria = str_replace("##footer##", $footer, $galeria);
+
+
+        //Sustituir cosas propias de la pestaña
+        $galeria= str_replace("##categoria##", $categoria, $galeria);
+        $galeria = str_replace("##nombreReceta##", $datosReceta[0]["NOMBRE"], $galeria);
+        $linkImagenes = "assets/img/recetas/";
+        $trozos = explode("##filaGaleria##", $galeria);
+        $cuerpo = "";
+        if($imagenesReceta != null){
+            for($i=0;$i<sizeof($imagenesReceta);$i++){
+                $aux = $trozos[1];
+                $aux = str_replace("##linkImagen##", $linkImagenes . $imagenesReceta[$i]["PATH"], $aux);
+                $cuerpo .= $aux;
+            }
+        }else{
+            $aux = $trozos[1];
+            $aux = "NO HAY IMAGENES DISPONIBLES";
+            $cuerpo .= $aux;
+        }
+        echo $trozos[0] . $cuerpo . $trozos[2];
+    }
+
+    /**
+     * 
+     */
     function vMostrarResultadosBusqueda($info){
         // Obtener contenido
         $busqueda = file_get_contents("buscar.html");

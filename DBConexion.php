@@ -12,7 +12,7 @@ class DBConexion {
 
     private $servidor="localhost";
     private $usuario="root";
-    private $password="";
+    private $password=" ";
     private $base_datos="db_groupdelta";
 
     private $conexion;
