@@ -356,10 +356,12 @@
             $aux = $trozos[1];
             $aux = str_replace("##nombreIngrediente##", $ingredientes[$i]["NOMBRE"], $aux);
             $aux = str_replace("##cantidad##", $ingredientes[$i]["CANTIDAD"], $aux);
-            $aux = str_replace("##idNomIng", "nombreIngrediente" . $i, $aux);
-            $aux = str_replace("##idCant", "cantidad" . ($i+1), $aux);
-            $aux = str_replace("##idIngLabel", "ingLabel" . ($i+1), $aux);
-            $aux = str_replace("##idCantLabel", "cantidadLabel" . ($i+1), $aux);
+            $aux = str_replace("##idNomIng", "nomIngrediente" . ($i+1), $aux);
+            $aux = str_replace("##idCant", "cantIngrediente" . ($i+1), $aux);
+            $aux = str_replace("##idIngLabel", "labelNombre" . ($i+1), $aux);
+            $aux = str_replace("##idCantLabel", "labelCantidad" . ($i+1), $aux);
+            $aux = str_replace("##nameCant", "cantidad" . ($i+1), $aux);
+            $aux = str_replace("##nameIng", "nombreIngrediente" . ($i+1), $aux);
             $cuerpo .= $aux;
         }
 
@@ -375,7 +377,11 @@
             $aux = str_replace("##paso##", $pasos[$i]["NUMERO_PASO"], $aux);
             $aux = str_replace("##exp##", $pasos[$i]["EXPLICACION"], $aux);
             $aux = str_replace("##idNumPaso", "numPaso" . ($i+1), $aux);
+            $aux = str_replace("##idlabPaso", "labelPaso" . ($i+1), $aux);
+            $aux = str_replace("##namePaso", "numPaso" . ($i+1), $aux);
             $aux = str_replace("##idExp", "explicacion" . ($i+1), $aux);
+            $aux = str_replace("##idlabExp", "labelExplicacion" . ($i+1), $aux);
+            $aux = str_replace("##nameExp", "explicacion" . ($i+1), $aux);
             $cuerpo .= $aux;
         }
         $file = $trozos[0] . $cuerpo . $trozos[2];

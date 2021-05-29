@@ -357,8 +357,9 @@
      * 
      */
     function mmodificarReceta($datos, $ingredientes, $pasos, $id){
-    
         // Obtener los nuevos datos
+        print_r($ingredientes);
+        print_r($pasos);
         $nombreNuevaReceta = $_POST["nombreReceta"];
         $nuevaCategoria = $_POST["categoria"];
         $numIngredientes = $_POST["numIngredientes"];
@@ -367,36 +368,55 @@
         $conexion = DBConexion::getInstance();
 
         // Actualizar la tabla receta
-        $sql = "UPDATE RECETA SET NOMBRE = ? AND CATEGORIA = ? WHERE IDRECETA = ?";
-        $sql_prepared = $conexion->prepare($sql);
-        $sql_prepared->bind_param('sss', $nombreNuevaReceta, $nuevaCategoria, $id);
-        $conexion->ejecutar($sql_prepared);
+        if($datos[0]["NOMBRE"] != $nombreNuevaReceta){
+            $sql = "UPDATE RECETA SET NOMBRE = ? WHERE IDRECETA = ?";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('ss', $nombreNuevaReceta, $id);
+            $conexion->ejecutar($sql_prepared);
+        }
+
+        if($datos[0]["CATEGORIA"] != $nuevaCategoria){
+            $sql = "UPDATE RECETA SET CATEGORIA = ? WHERE IDRECETA = ?";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('ss', $nuevaCategoria, $id);
+            $conexion->ejecutar($sql_prepared);
+        }
 
         // Actualizar la tabla con los pasos
         for($i = 0; $i <$numPasos; $i++){
             // Ir obteniendo los pasos
-            $numPaso = $_POST["numPaso".$i];
-            $explicacion = $_POST["explicacion".$i];
+            $explicacion = $_POST["explicacion".($i+1)];
 
-            $sql = "UPDATE PASOS SET NUMERO_PASO = ? AND EXPLICACION = ? 
-                    WHERE IDRECETA = ? AND NUMERO_PASO = ? AND EXPLICACION = ?";
-            $sql_prepared = $conexion->prepare($sql);
-            $sql_prepared->bind_param('sssss', $numPaso, $explicacion, $id, $pasos[$i]["NUMERO_PASO"], $pasos[$i]["EXPLICACION"]);
-            $conexion->ejecutar($sql_prepared);
+            if($explicacion != $pasos[$i]["EXPLICACION"]){
+                $sql = "UPDATE PASOS SET EXPLICACION = ? 
+                    WHERE IDRECETA = ? AND NUMERO_PASO = ?";
+                $sql_prepared = $conexion->prepare($sql);
+                $sql_prepared->bind_param('sss', $explicacion, $id, $pasos[$i]["NUMERO_PASO"]);
+                $conexion->ejecutar($sql_prepared);
+            }
         }
 
         // Actualizar la tabla con los ingredientes
-        for($i = 0; $i < $numIngredientes; $i++){
-            // Ir obteniendo los pasos
-            $nombreIngrediente = $_POST["nombreIngrediente".$i];
-            $cantidad = $_POST["cantidad".$i];
-            echo $nombreIngrediente;
-            echo $cantidad;
-            $sql = "UPDATE INGREDIENTES SET NOMBRE = ? AND CANTIDAD = ? 
+        for($i = 0; $i < sizeof($ingredientes); $i++){
+            // Ir obteniendo los ingredientes
+            $nombreIngrediente = $_POST["nombreIngrediente".($i+1)];
+            $cantidad = $_POST["cantidad".($i+1)];
+
+            if($nombreIngrediente != $ingredientes[$i]["NOMBRE"]){
+                $sql = "UPDATE INGREDIENTES SET NOMBRE = ? 
+                    WHERE IDRECETA = ? AND NOMBRE = ?";
+                $sql_prepared = $conexion->prepare($sql);
+                $sql_prepared->bind_param('sss', $nombreIngrediente, $id, $ingredientes[$i]["NOMBRE"]);
+                $conexion->ejecutar($sql_prepared);
+            }
+
+            if($cantidad != $ingredientes[$i]["CANTIDAD"]){
+                $sql = "UPDATE INGREDIENTES SET CANTIDAD = ? 
                     WHERE IDRECETA = ? AND NOMBRE = ? AND CANTIDAD = ?";
-            $sql_prepared = $conexion->prepare($sql);
-            $sql_prepared->bind_param('sssss', $nombreIngrediente, $cantidad, $id, $ingredientes[$i]["NOMBRE"], $ingredientes[$i]["CANTIDAD"]);
-            $conexion->ejecutar($sql_prepared);
+                $sql_prepared = $conexion->prepare($sql);
+                $sql_prepared->bind_param('ssss', $cantidad, $id, $ingredientes[$i]["NOMBRE"], $ingredientes[$i]["CANTIDAD"]);
+                $conexion->ejecutar($sql_prepared);
+            }
         }
 
         echo "<script>
