@@ -174,7 +174,7 @@
                 
                 $trozos = explode("##fila##", $paginaReceta);
                 $cuerpo = "";
-                for($i=0;$i<sizeof($pasosReceta);$i++){
+                for($i=0;$i<sizeof($ingredientesReceta);$i++){
                     $aux = $trozos[1];
                     $aux = str_replace("##numero##", $ingredientesReceta[$i]["NOMBRE"], $aux);
                     $aux = str_replace("##contenido##", $ingredientesReceta[$i]["CANTIDAD"], $aux);
