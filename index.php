@@ -65,7 +65,6 @@
 
     switch($accion){
         case "principal":
-            session_start();
             switch($id){
                 case 1:
                     vmostrarPaginaPrincipal($header);
@@ -117,7 +116,6 @@
             vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
-            session_start();
             switch($id){
                 case 1:
                     vmodificarReceta(mobtenerDatosReceta($_GET["receta"]), mobtenerIngredientesReceta($_GET["receta"]), mobtenerPasosReceta($_GET["receta"]), $_GET["receta"], mobtenerCategorias(), mobtenerImagenesReceta($_GET["receta"]),$header);

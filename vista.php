@@ -128,12 +128,10 @@
     function vmostrarReceta($header, $id, $datosReceta, $imagenesReceta,$ingredientesReceta,$pasosReceta,$idReceta)
     {
         // Obtener contenido
-        if($id == 2)
-        {
+        if($id == 2) {
             $paginaReceta = file_get_contents("plantillaMostrarRecetaIngredientes.html");
         }
-        else
-        {
+        else {
             $paginaReceta = file_get_contents("plantillaMostrarRecetaPasos.html");
 
         }
@@ -423,6 +421,7 @@
             for($i = 0; $i < sizeof($info); $i++){
                 $aux = $trozos[1];
                 $aux = str_replace("##nombrereceta##", $info[$i]["NOMBRE"], $aux);
+                $aux = str_replace("##idreceta##", $info[$i]["IDRECETA"], $aux);
                 $cuerpo .= $aux;
             }
         }else{

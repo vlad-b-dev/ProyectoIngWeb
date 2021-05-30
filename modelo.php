@@ -321,7 +321,7 @@
     function mbuscarRecetas($info){
         $conexion = DBConexion::getInstance();
 
-        $sql = "SELECT NOMBRE 
+        $sql = "SELECT NOMBRE, IDRECETA 
                 FROM RECETA 
                 WHERE NOMBRE LIKE CONCAT('%',?,'%')";
 
