@@ -151,28 +151,32 @@
     function meliminarReceta($receta, $categoria){
         $conexion = DBConexion::getInstance();
 
-        // Eliminar los pasos
-        $sql = "DELETE FROM PASOS WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
-                                                    FROM PASOS, RECETA
-                                                    WHERE PASOS.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        // Obtener el id de la receta
+        $sql = "SELECT IDRECETA
+				FROM RECETA
+				WHERE NOMBRE = ? AND CATEGORIA = ?";
         $sql_prepared = $conexion->prepare($sql);
         $sql_prepared->bind_param('ss', $receta, $categoria);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $idReceta = $conexion->obtener_filas($resultado);
+
+        // Eliminar los pasos
+        $sql = "DELETE FROM PASOS WHERE IDRECETA = ?";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('s', $idReceta[0]["IDRECETA"]);
         $conexion->ejecutar($sql_prepared);
 
         // Eliminar los ingredientes
-        $sql = "DELETE FROM INGREDIENTES WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
-                                                            FROM INGREDIENTES, RECETA
-                                                            WHERE INGREDIENTES.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        $sql = "DELETE FROM INGREDIENTES WHERE IDRECETA = ?";
         $sql_prepared = $conexion->prepare($sql);
-        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $sql_prepared->bind_param('s', $idReceta[0]["IDRECETA"]);
         $conexion->ejecutar($sql_prepared);
 
         // Eliminar fotos
-        $sql = "DELETE FROM FOTO WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
-                                                    FROM FOTO, RECETA
-                                                    WHERE FOTO.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        $sql = "DELETE FROM FOTO WHERE IDRECETA = ?";
         $sql_prepared = $conexion->prepare($sql);
-        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $sql_prepared->bind_param('ss', $idReceta[0]["IDRECETA"]);
         $conexion->ejecutar($sql_prepared);
 
         // Eliminar la receta

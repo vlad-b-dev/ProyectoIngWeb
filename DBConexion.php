@@ -10,10 +10,10 @@
  */
 class DBConexion {
 
-    private $servidor="localhost";
-    private $usuario="root";
-    private $password="";
-    private $base_datos="db_groupdelta";
+    private $servidor="eim-srv-mysql";
+    private $usuario="iw21_sotesc";
+    private $password="7dJnoSF2020";
+    private $base_datos="iw21_db_sotesc";
 
     private $conexion;
 
