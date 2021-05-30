@@ -55,7 +55,6 @@
         // Si hay algún usuario con esos datos, le lleva a su cuenta
         if($datos == null){              /// para insert, delete, update no hace falta
             echo "<script>
-                alert('Usuario no encontrado');
                 location.href ='index.php?accion=login&id=1';
             </script>";
         }else{
@@ -64,7 +63,6 @@
             $_SESSION["userId"] = $datos[0]["IDUSUARIO"];
             $_SESSION["userName"] = $datos[0]["NOMBRE"];
             echo "<script>
-                alert('Usuario registrado');
                 location.href ='index.php?accion=perfil&id=1';
             </script>";
         }
@@ -264,7 +262,7 @@
         $idReceta = $resultado->fetch_assoc()["ID"];
 
         //Insertar en INGREDIENTES[idreceta, nombre, cantidad]
-        /*$numIngredientes = $_POST["numIngredientes"];
+        $numIngredientes = $_POST["numIngredientes"];
         for($i = 1; $i <= $numIngredientes; $i++){
             $nombreIngrediente = $_POST["nombreIngrediente".$i];
             $cantidad = $_POST["cantidad".$i];
@@ -284,7 +282,7 @@
             $sql_prepared = $conexion->prepare($sql);
             $sql_prepared->bind_param('sss', $idReceta, $numPaso, $explicacion);
             $conexion->ejecutar($sql_prepared);
-        }*/
+        }
 
         // Insertar imágenes
         $sql = "SELECT MAX(IDFOTO) AS ULTIMO FROM FOTO";

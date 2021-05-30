@@ -317,7 +317,6 @@
 
                 $codigoBoton = '<a class="action" href="index.php?accion=mostrarReceta&receta='.$recetas[$i]["IDRECETA"].'"><i class="fa fa-arrow-circle-right" style="color: var(--white);"></i></a>';
                 $aux = str_replace("##botonReceta##", $codigoBoton, $aux);
-
                 $linkImagen = mobtenerImagenesReceta($recetas[$i]["IDRECETA"]);
                 $aux = str_replace("##linkImagen##",  $linkImagenes . $linkImagen[0]["PATH"], $aux);
                 $cuerpo .= $aux;
