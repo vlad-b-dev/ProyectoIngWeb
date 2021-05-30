@@ -184,12 +184,13 @@
             else{
                 $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
     
-                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                $paginaReceta = str_replace("##numero##", sizeof($pasosReceta), $paginaReceta);
                 
-                $trozos = explode("##filaPasos##", $paginaReceta);
+                $trozos = explode("##fila##", $paginaReceta);
                 $cuerpo = "";
-                $aux = str_replace("##numeroPaso##", "NO HAY DATOS", $aux);
-                $aux = str_replace("##contenidoPaso##", "", $aux);
+                $aux = $trozos[1];
+                $aux = str_replace("##numero##", "NO HAY DATOS", $aux);
+                $aux = str_replace("##contenido##", "", $aux);
                 $cuerpo .= $aux;
             }
             $paginaReceta = $trozos[0] . $cuerpo . $trozos[2];
@@ -211,12 +212,13 @@
             else{
                 $paginaReceta = str_replace("##numIngredientes##", "0", $paginaReceta);
     
-                $paginaReceta = str_replace("##numPasos##", sizeof($pasosReceta), $paginaReceta);
+                $paginaReceta = str_replace("##numero##", sizeof($pasosReceta), $paginaReceta);
                 
-                $trozos = explode("##filaPasos##", $paginaReceta);
+                $trozos = explode("##fila##", $paginaReceta);
                 $cuerpo = "";
-                $aux = str_replace("##numeroPaso##", "NO DATA", $aux);
-                $aux = str_replace("##contenidoPaso##", "", $aux);
+                $aux = $trozos[1];
+                $aux = str_replace("##numero##", "NO DATA", $aux);
+                $aux = str_replace("##contenido##", "", $aux);
                 $cuerpo .= $aux;
             }
             $paginaReceta = $trozos[0] . $cuerpo . $trozos[2];
@@ -319,7 +321,7 @@
                 $aux = str_replace("##botonReceta##", $codigoBoton, $aux);
 
                 $linkImagen = mobtenerImagenesReceta($recetas[$i]["IDRECETA"]);
-                $aux = str_replace("##linkImagen##",  $linkImagenes . $linkImagen[1]["PATH"], $aux);
+                $aux = str_replace("##linkImagen##",  $linkImagenes . $linkImagen[0]["PATH"], $aux);
                 $cuerpo .= $aux;
             }
         }else{
@@ -387,7 +389,7 @@
 
 
         //Sustituir cosas propias de la pestaña
-        $galeria= str_replace("##categoria##", $categoria, $galeria);
+        $galeria= str_replace("##categoria##", $datosReceta[0]["CATEGORIA"], $galeria);
         $galeria = str_replace("##nombreReceta##", $datosReceta[0]["NOMBRE"], $galeria);
         $linkImagenes = "assets/img/recetas/";
         $trozos = explode("##filaGaleria##", $galeria);

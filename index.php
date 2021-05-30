@@ -1,7 +1,7 @@
 <?php
-    /*error_reporting(E_ALL);
+    error_reporting(E_ALL);
     ini_set('display_errors', TRUE);
-    ini_set('display_startup_errors', TRUE);*/
+    ini_set('display_startup_errors', TRUE);
 
     include "modelo.php";
     include "vista.php";
@@ -96,7 +96,6 @@
             }
             break;
         case "perfil":
-            session_start();
             switch($id){
                 case 1:
                     vmostrarPerfilUsuario($header, mobtenerInfoUsuario(), mobtenerRecetasUsuario());
@@ -115,7 +114,6 @@
             }
             break;
         case "listado":
-            session_start();
             vmostrarListado($header,$categoria, mobtenerListadoRecetas($categoria));
             break;
         case "editar_receta":
@@ -133,11 +131,9 @@
             meliminarReceta($receta, $categoria);
             break;
         case "mostrarReceta":
-            session_start();
             vMostrarReceta($header,$id,mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta),mobtenerIngredientesReceta($receta),mobtenerPasosReceta($receta),$receta);
             break;
         case "mostrarImagenes":
-            session_start();
             vMostrarImagenesReceta($header,$receta, mobtenerDatosReceta($receta), mobtenerImagenesReceta($receta));
             break;
         case "buscar":

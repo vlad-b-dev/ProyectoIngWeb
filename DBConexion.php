@@ -91,6 +91,7 @@ class DBConexion {
      * @return array|false
      */
     public function obtener_filas($resultado){
+        $datos_resultado = [];
         $i = 0;
         if($resultado != null){
             while($datos = $resultado->fetch_assoc()){

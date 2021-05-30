@@ -78,9 +78,6 @@
         $nombre = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        echo $nombre;
-        echo $email;
-        echo $password;
 
         // Conexión a la base de datos
         $conexion = DBConexion::getInstance();
@@ -172,6 +169,14 @@
         $sql_prepared->bind_param('ss', $receta, $categoria);
         $conexion->ejecutar($sql_prepared);
 
+        // Eliminar fotos
+        $sql = "DELETE FROM FOTO WHERE IDRECETA = (SELECT DISTINCT RECETA.IDRECETA
+                                                    FROM FOTO, RECETA
+                                                    WHERE FOTO.IDRECETA=RECETA.IDRECETA AND RECETA.NOMBRE = ? AND RECETA.CATEGORIA = ?)";
+        $sql_prepared = $conexion->prepare($sql);
+        $sql_prepared->bind_param('ss', $receta, $categoria);
+        $conexion->ejecutar($sql_prepared);
+
         // Eliminar la receta
         $sql = "DELETE FROM RECETA WHERE NOMBRE = ? AND CATEGORIA = ?";
         $sql_prepared = $conexion->prepare($sql);
@@ -233,7 +238,6 @@
      *
      */
     function minsertarReceta(){
-        session_start();
         $conexion = DBConexion::getInstance();
 
         // Obtener los datos del formulario
@@ -241,6 +245,10 @@
         $categoria = $_POST["categoria"];
         $idUsuario = $_SESSION["userId"];
         $fecha = date('Y-m-d');
+
+        // Datos de las imágenes
+        $ficherotmp = $_FILES['file']['tmp_name'];              
+        $nombreArchivo = $_FILES['file']['name']; 
 
         //Insertar en RECETA[idreceta, categoria, idusuario, nombre, creacion]
         $sql = "INSERT INTO RECETA (CATEGORIA, IDUSUARIO, NOMBRE, CREACION) VALUES (?, ?,?, ?)";
@@ -256,7 +264,7 @@
         $idReceta = $resultado->fetch_assoc()["ID"];
 
         //Insertar en INGREDIENTES[idreceta, nombre, cantidad]
-        $numIngredientes = $_POST["numIngredientes"];
+        /*$numIngredientes = $_POST["numIngredientes"];
         for($i = 1; $i <= $numIngredientes; $i++){
             $nombreIngrediente = $_POST["nombreIngrediente".$i];
             $cantidad = $_POST["cantidad".$i];
@@ -268,7 +276,6 @@
 
         //Insertar en PASOS[idreceta, num_paso, explicacion]
         $numPasos = $_POST["numPasos"];
-        echo "numero pasos: ".$numPasos."\n";
         for($i=1; $i <= $numPasos; $i++){
             $numPaso = $_POST["numPaso".$i];
             $explicacion = $_POST["explicacion".$i];
@@ -277,11 +284,35 @@
             $sql_prepared = $conexion->prepare($sql);
             $sql_prepared->bind_param('sss', $idReceta, $numPaso, $explicacion);
             $conexion->ejecutar($sql_prepared);
+        }*/
+
+        // Insertar imágenes
+        $sql = "SELECT MAX(IDFOTO) AS ULTIMO FROM FOTO";
+        $sql_prepared = $conexion->prepare($sql);
+        $conexion->ejecutar($sql_prepared);
+        $resultado = $conexion->obtener_resultados($sql_prepared);
+        $datos = $conexion->obtener_filas($resultado);
+
+        // Renombrar imagen
+        $archivo_extension = "";
+        $ruta = "assets/img/recetas/";
+        $nuevoNombre = $datos[0]["ULTIMO"] + 1;
+        $archivo_extension = "imagen" . $nuevoNombre . '.jpg';            
+        $ruta = $ruta . $archivo_extension;       
+
+        // Mover a la carpeta img/
+        if(move_uploaded_file($ficherotmp, $ruta)){
+            // Realizar consulta de inserción
+            $sql = "INSERT INTO FOTO VALUES(?, ?,?)";
+            $sql_prepared = $conexion->prepare($sql);
+            $sql_prepared->bind_param('sss', $nuevoNombre, $idReceta, $archivo_extension);
+            $conexion->ejecutar($sql_prepared);
         }
 
+        // Volver al perfil
         echo "<script>
-        location.href ='index.php?accion=perfil&id=1';
-        </script>";
+            location.href ='index.php?accion=perfil&id=1';
+            </script>";
     }
 
     /**
